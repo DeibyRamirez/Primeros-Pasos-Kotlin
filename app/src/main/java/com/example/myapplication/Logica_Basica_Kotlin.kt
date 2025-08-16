@@ -175,7 +175,7 @@ fun main() {
         }
     }
 
-    Operaciones_matematicas(3,5,1)
+    println(Operaciones_matematicas(3,5,1))
 
     /*Actividad 7*/
 

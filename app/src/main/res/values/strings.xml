@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Trik Tak</string>
+    <string name="titulo">Trik Tak Cheiviz</string>
+    <string name="creador">Deiby Alejandro Ramirez Galvis</string>
+    <string name="reiniciar">Reiniciar</string>
+
+
 </resources>
