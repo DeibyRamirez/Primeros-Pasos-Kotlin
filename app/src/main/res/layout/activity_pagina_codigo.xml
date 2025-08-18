@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaginaCodigo"
+    android:background="@drawable/f2"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/luckiestguy_regular"
+        android:text="@string/titulo"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="50sp" />
+
+    <!-- Texto dinámico que cambia según el modo -->
+    <TextView
+        android:id="@+id/textoModo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Código de partida:"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textColor="@color/yellow"
+        android:fontFamily="@font/nabla_regular_variablefont_edpt_ehlt"
+        android:layout_marginTop="20dp" />
+
+
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
+
+
+
+
+
+        <EditText
+            android:id="@+id/codigoPartida"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:inputType="textCapCharacters"
+            android:hint="Código"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:gravity="center"
+            android:fontFamily="@font/luckiestguy_regular"
+            android:background="@drawable/green_button" />
+
+        <Button
+            android:id="@+id/botonIngresar"
+            style="@style/Botones"
+            android:text="Ingresar" />
+
+        <!-- Instrucciones adicionales -->
+        <TextView
+            android:id="@+id/textoInstrucciones"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:text="@string/comparte"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_marginTop="50dp"
+            android:visibility="visible" />
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

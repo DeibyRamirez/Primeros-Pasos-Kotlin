@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "970875537200",
+    "project_id": "trik-tak",
+    "storage_bucket": "trik-tak.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970875537200:android:acd5a298e8f30ea7bf6af5",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJzXwGxK3oAa3QMmAqeduPphxeY1QCUbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

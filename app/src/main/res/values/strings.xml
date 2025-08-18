@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Trik Tak</string>
-    <string name="titulo">Trik Tak Cheiviz</string>
+    <string name="titulo">Trik Tak</string>
     <string name="creador">Deiby Alejandro Ramirez Galvis</string>
     <string name="reiniciar">Reiniciar</string>
-
+    <string name="Unirse">Unirse a Partida</string>
+    <string name="Crear">Crear una Partida</string>
+    <string name="local">Partida Local</string>
+    <string name="online">Partida Online</string>
+    <string name="comparte">Usa el código de partida que te compartierón para que puedas unirte a su partida...</string>
 
 </resources>
