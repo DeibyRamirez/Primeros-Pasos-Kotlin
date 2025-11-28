@@ -120,7 +120,7 @@ class PaginaCodigo : AppCompatActivity() {
             crashlytics.log("Se creo partida exitosamente")
 
             // Nos movemos a la pantalla del Juego
-            val intent = Intent(this, PaginaJuego::class.java)
+                val intent = Intent(this, PaginaJuego::class.java)
             intent.putExtra("codigo_partida", codigo)
             intent.putExtra("yoSoy", "x")
             intent.putExtra("modo_juego", "online")

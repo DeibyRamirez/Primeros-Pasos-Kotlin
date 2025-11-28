@@ -1,12 +1,14 @@
-package com.example.myapplication
+package com.example.myapplication.modelos
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.myapplication.R
 import kotlin.random.Random
-import kotlin.random.nextInt
+import kotlin.text.toInt
+import kotlin.to
 
 class Logica_Basica_Kotlin : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

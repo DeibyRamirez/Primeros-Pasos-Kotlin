@@ -13,22 +13,38 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".PaginaBienvenida"
-            android:exported="true" >
+            android:name=".pagina_juego_ia"
+            android:exported="false" />
+        <activity
+            android:name=".Perfil"
+            android:exported="false" />
+        <activity
+            android:name=".Personalizar"
+            android:exported="false" />
+        <activity
+            android:name=".Login"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Activity del juego -->
-        <!-- Activity código (sin intent-filter) -->
+        </activity>
+        <activity
+            android:name=".Registro"
+            android:exported="false" />
+        <activity
+            android:name=".clasePractica"
+            android:exported="false" />
+        <activity
+            android:name=".PaginaBienvenida"
+            android:exported="false" /> <!-- Activity código (sin intent-filter) -->
         <activity
             android:name=".PaginaCodigo"
             android:exported="false" />
         <activity
             android:name=".PaginaPrincipal"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".PaginaJuego"
             android:exported="false" />

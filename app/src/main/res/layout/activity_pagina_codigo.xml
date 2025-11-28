@@ -64,7 +64,7 @@
         <Button
             android:id="@+id/botonIngresar"
             style="@style/Botones"
-            android:text="Ingresar" />
+            android:text="@string/ingresar" />
 
         <!-- Instrucciones adicionales -->
         <TextView

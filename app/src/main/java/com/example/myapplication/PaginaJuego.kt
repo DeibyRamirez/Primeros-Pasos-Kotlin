@@ -7,6 +7,7 @@ import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.TextView
 import android.content.Intent
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -54,6 +55,7 @@ class PaginaJuego : AppCompatActivity() {
             configurarModoLocal()
         } else {
             configurarModoOnline()
+            botonReiniciar.visibility = View.GONE
         }
 
         // Configurar botones
@@ -64,14 +66,8 @@ class PaginaJuego : AppCompatActivity() {
         }
 
         botonReiniciar.setOnClickListener {
-            if (modoJuego == "local") {
+             if (modoJuego == "local") {
                 reiniciarJuegoLocal()
-            } else {
-                if (yoSoy == "x") {
-                    reiniciarJuegoFirebase()
-                } else {
-                    Toast.makeText(this, "Solo el jugador X puede reiniciar", Toast.LENGTH_SHORT).show()
-                }
             }
         }
     }
