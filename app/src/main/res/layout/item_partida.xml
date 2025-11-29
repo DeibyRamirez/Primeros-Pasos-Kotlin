@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/rounded_white"
+    android:padding="12dp"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/txtCodigoPartida"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Código: ABC123"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnUnirsePartida"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Unirse"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/white"
+        android:padding="6dp"
+        android:textStyle="bold" />
+
+</LinearLayout>

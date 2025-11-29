@@ -13,7 +13,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlin.random.Random
 
-class PaginaCodigo : AppCompatActivity() {
+class PaginaCodigo : BaseActivity() {
 
     private lateinit var crashlytics: FirebaseCrashlytics
 

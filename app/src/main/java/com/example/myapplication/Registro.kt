@@ -12,7 +12,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.database.FirebaseDatabase
 
-class Registro : AppCompatActivity() {
+class Registro : BaseActivity() {
+
+    private var avatarSeleccionado: String = ""
+
     lateinit var binding: ActivityRegistroBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +23,9 @@ class Registro : AppCompatActivity() {
 
         binding = ActivityRegistroBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        configurarSeleccionAvatares()
+
 
         binding.botonRegistrar.setOnClickListener {
             val nombre = binding.nombre.text.toString()
@@ -40,6 +46,12 @@ class Registro : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+            if (avatarSeleccionado.isEmpty()) {
+                Toast.makeText(this, "Selecciona un avatar", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             if (contraseña != re) {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             } else {
@@ -60,7 +72,7 @@ class Registro : AppCompatActivity() {
                             // El @addOnCompleteListener es una función que se ejecuta cuando la operación termina...
                             val uid = task.result?.user?.uid ?: return@addOnCompleteListener
 
-                            val usuario = Usuario(uid, nombre, correo, contraseña)
+                            val usuario = Usuario(uid, nombre, correo, contraseña, avatarSeleccionado)
                             // Guarda en Realtime Database el usuario creado...
                             FirebaseDatabase.getInstance().getReference("usuarios")
                                 .child(uid).setValue(usuario).addOnSuccessListener {
@@ -92,4 +104,41 @@ class Registro : AppCompatActivity() {
         }
 
     }
+
+    private fun configurarSeleccionAvatares() {
+        val avatares = mapOf(
+            binding.button1 to "av1",
+            binding.button2 to "av2",
+            binding.button3 to "av3",
+            binding.button4 to "av4",
+            binding.button5 to "av5",
+            binding.button6 to "av6",
+            binding.button7 to "av7",
+            binding.button8 to "av8",
+            binding.button9 to "av9",
+            binding.button10 to "av10",
+            binding.button11 to "av11",
+            binding.button12 to "av12"
+        )
+
+        avatares.forEach { (boton, nombreAvatar) ->
+            boton.setOnClickListener {
+                avatarSeleccionado = nombreAvatar
+
+                // marca visual (opcional)
+                limpiarSelecciones()
+                boton.setBackgroundResource(R.drawable.border_selected)
+            }
+        }
+    }
+
+    private fun limpiarSelecciones() {
+        listOf(
+            binding.button1, binding.button2, binding.button3, binding.button4, binding.button5, binding.button6,
+            binding.button7, binding.button8, binding.button9, binding.button10, binding.button11, binding.button12
+        ).forEach {
+            it.setBackgroundResource(R.drawable.green_button)
+        }
+    }
+
 }

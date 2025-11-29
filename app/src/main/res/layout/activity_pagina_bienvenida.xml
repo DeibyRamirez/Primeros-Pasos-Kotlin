@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/f2"
     android:orientation="vertical"
     tools:context=".PaginaBienvenida">
 
@@ -16,7 +15,6 @@
         android:layout_marginTop="40dp"
         android:layout_marginRight="10dp"
         android:gravity="end"
-
         android:orientation="horizontal">
 
         <ImageButton
@@ -24,12 +22,11 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/circle_white"
-            android:src="@drawable/ic_c"
+            android:src="@drawable/personalizar"
             android:scaleType="centerInside"
             android:contentDescription="fefa"
             android:padding="6dp" />
     </LinearLayout>
-
 
     <TextView
         android:layout_width="match_parent"
@@ -43,8 +40,8 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
         android:columnCount="1"
         android:rowCount="2">
 
@@ -59,5 +56,64 @@
             android:text="@string/online" />
 
     </GridLayout>
-    
+
+    <!-- Título del chat -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/luckiestguy_regular"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="@string/Chat_Global" />
+
+    <!-- CHAT CON SCROLL -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/chat_background"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/contenedorChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+    </ScrollView>
+
+    <!-- Input y botón -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/edtMensaje"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_white"
+            android:hint="Escribe un mensaje..."
+            android:padding="10dp" />
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="1dp" />
+
+        <ImageButton
+            android:id="@+id/btnEnviar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle_white"
+            android:padding="6dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/enviar" />
+    </LinearLayout>
+
 </LinearLayout>

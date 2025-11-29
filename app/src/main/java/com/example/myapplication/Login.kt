@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class Login : AppCompatActivity() {
+class Login : BaseActivity() {
     lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +58,8 @@ class Login : AppCompatActivity() {
                         if (usuario?.contraseña == contraseña) {
                             Toast.makeText(this@Login, "Bienvenido", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this@Login, PaginaBienvenida::class.java)
+
+                            intent.putExtra("id_usuario", childSnapshot.key)  // 👈 Guardamos el ID
                             startActivity(intent)
                             return
                         }

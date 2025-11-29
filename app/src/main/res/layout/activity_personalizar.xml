@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/f2"
+
     tools:context=".Personalizar">
 
     <LinearLayout
@@ -58,46 +58,151 @@
                     android:layout_marginTop="4dp"
                     android:textColor="#666"/>
 
-                <!-- Vista previa fondos -->
-                <LinearLayout
+                <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:scrollbars="none">
 
-                    android:gravity="center"
-                    android:layout_marginTop="15dp">
+                    <!-- Vista previa fondos -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
 
-                    <ImageView
-                        android:id="@+id/fondo1"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:src="@drawable/f2"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="8dp" />
+                        android:gravity="center"
+                        android:layout_marginTop="15dp">
 
-                    <ImageView
-                        android:id="@+id/fondo2"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:src="@drawable/f2"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="8dp" />
+                        <ImageView
+                            android:id="@+id/fondo1"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/f1"
+                            android:scaleType="centerCrop"
+                            android:layout_margin="8dp" />
 
-                    <ImageView
-                        android:id="@+id/fondo3"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:src="@drawable/fondo_kotlin"
-                        android:scaleType="centerCrop"
-                        android:layout_margin="8dp" />
+                        <ImageView
+                            android:id="@+id/fondo2"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/f2"
+                            android:scaleType="centerCrop"
+                            android:layout_margin="8dp" />
 
-                </LinearLayout>
+                        <ImageView
+                            android:id="@+id/fondo3"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/f3"
+                            android:scaleType="centerCrop"
+                            android:layout_margin="8dp" />
+
+                        <ImageView
+                            android:id="@+id/fondo4"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/agregar"
+                            android:scaleType="centerCrop"
+                            android:layout_margin="8dp" />
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
 
-        <!-- CARD 2: Fichas -->
+        <!-- CARD 2: Fichas X -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            android:padding="20dp"
+            >
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fichas (O)"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Elige las imágenes de las fichas del juego"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"
+                    android:textColor="#666"/>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <!-- Vista previa fichas -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="15dp">
+
+                        <ImageView
+                            android:id="@+id/fichaX1"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/ic_c"
+                            android:layout_margin="8dp" />
+                        <ImageView
+                            android:id="@+id/fichaX2"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/ic_c1"
+                            android:layout_margin="8dp" />
+                        <ImageView
+                            android:id="@+id/fichaX3"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/ic_c2"
+                            android:layout_margin="8dp" />
+                        <ImageView
+                            android:id="@+id/fichaX4"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/ic_c3"
+                            android:layout_margin="8dp" />
+                        <ImageView
+                            android:id="@+id/fichaXpersonalizada"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/agregar"
+                            android:layout_margin="8dp" />
+
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- CARD 3: Fichas O -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,7 +222,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fichas (X / O)"
+                    android:text="Fichas (X)"
                     android:textSize="22sp"
                     android:textStyle="bold"/>
 
@@ -129,29 +234,56 @@
                     android:layout_marginTop="4dp"
                     android:textColor="#666"/>
 
-                <!-- Vista previa fichas -->
-                <LinearLayout
+                <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="15dp">
+                    android:scrollbars="none">
 
-                    <ImageView
-                        android:id="@+id/fichaX"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:src="@drawable/ic_c"
-                        android:layout_margin="8dp" />
+                    <!-- Vista previa fichas -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="15dp">
 
-                    <ImageView
-                        android:id="@+id/fichaO"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:src="@drawable/ic_x"
-                        android:layout_margin="8dp" />
 
-                </LinearLayout>
+                        <ImageView
+                            android:id="@+id/fichaO1"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/ic_x"
+                            android:layout_margin="8dp" />
+                        <ImageView
+                            android:id="@+id/fichaO2"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/ic_x1"
+                            android:layout_margin="8dp" />
+                        <ImageView
+                            android:id="@+id/fichaO3"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/ic_x2"
+                            android:layout_margin="8dp" />
+                        <ImageView
+                            android:id="@+id/fichaO4"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/ic_x3"
+                            android:layout_margin="8dp" />
+                        <ImageView
+                            android:id="@+id/fichaOpersonalizada"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/agregar"
+                            android:layout_margin="8dp" />
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

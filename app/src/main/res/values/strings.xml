@@ -8,7 +8,7 @@
     <string name="local">Partida Local</string>
     <string name="online">Partida Online</string>
     <string name="local_2p">2 Jugadores</string>
-    <string name="local_AI">VS IA</string>
+    <string name="local_AI"> Jugador VS IA</string>
     <string name="comparte">Usa el código de partida que te compartierón para que puedas unirte a su partida...</string>
     <string name="registro">Registra tus Datos</string>
     <string name="login">Iniciar Sesión</string>
@@ -32,9 +32,11 @@
     El desafío consta de 3 niveles progresivos.\n\n
     Tu misión es completar un 3 en raya en cada uno para superar el reto.\n\n
 
-    Nivel 1: Tablero 3x3\n
-    Nivel 2: Tablero 4x4\n
-    Nivel 3: Tablero 5x5 con límite de 1 minuto.\n\n
+    Nivel 1: Tablero 3x3 con límite de 20 seg.\n
+    Nivel 2: Tablero 3x3 con límite de 15 seg.\n
+    Nivel 3: Tablero 4x4 con límite de 10 seg.\n
+        Nivel 4: Tablero 5x5 con límite de 5 seg.\n\n
+
     La IA será más agresiva y no te dará respiro.\n
 
     Si fallas en cualquier nivel, volverás al nivel inicial.\n\n

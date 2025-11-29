@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/f2"
+
     tools:context=".PaginaJuego">
 
     <TextView
@@ -34,6 +34,35 @@
         android:textAlignment="center"
         android:textColor="@color/yellow"
         android:fontFamily="@font/nabla_regular_variablefont_edpt_ehlt" />
+
+    <TextView
+        android:id="@+id/textoTiempo"
+        android:layout_width="333dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="100dp"
+        android:fontFamily="@font/nabla_regular_variablefont_edpt_ehlt"
+        android:paddingBottom="16dp"
+        android:text="Tiempo restante: 60"
+        android:textAlignment="center"
+        android:textColor="@color/yellow"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textoNivel"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:text="Nivel ..."
+        android:textSize="30sp"
+        android:layout_marginHorizontal="100dp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/yellow"
+        android:fontFamily="@font/nabla_regular_variablefont_edpt_ehlt" />
+
 
     <!-- Cuadricula 3x3  -->
     <GridLayout

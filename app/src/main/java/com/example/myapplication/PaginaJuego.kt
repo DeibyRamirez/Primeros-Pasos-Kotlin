@@ -5,19 +5,27 @@ import android.util.Log
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.viewfinder.core.ScaleType
+import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.desafio.ControladorDesafio
+import com.example.myapplication.desafio.MotorIA
+import com.example.myapplication.desafio.Temporizador
 import com.google.firebase.database.*
+import kotlinx.coroutines.launch
 
-class PaginaJuego : AppCompatActivity() {
+class PaginaJuego : BaseActivity() {
 
     // Variables del juego (locales y online)
     private var turnoJugador = "X"
-    private val jugadas = Array(3) { arrayOfNulls<String>(3) }
+    private var jugadas = Array(3) { arrayOfNulls<String>(3) }
     private var juegoTerminado = false
 
     // Variables para determinar el modo de juego
@@ -32,12 +40,36 @@ class PaginaJuego : AppCompatActivity() {
 
     // Variables UI
     private lateinit var textoTurno: TextView
+    private lateinit var textoNivel: TextView
+    private lateinit var textoTiempo: TextView
     private lateinit var grid: GridLayout
+
+
+
+    // Skin de X y O
+    private lateinit var prefs: UserPrefs
+    private var skinX: String = ""
+    private var skinO: String = ""
+
+    // importaciones Desafio
+    private var controladorDesafio = ControladorDesafio()
+    private var motorIA = MotorIA()
+    private var temporizador: Temporizador? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_pagina_juego)
+
+        // Inicializar preferencias
+        prefs = UserPrefs(this)
+
+        lifecycleScope.launch {
+            skinX = prefs.leerSkinX()        // puede ser "ic_x" o una ruta interna
+            skinO = prefs.leerSkinO()        // puede ser "ic_c" o una ruta interna
+        }
+
 
         // Obtener el modo de juego del Intent
         modoJuego = intent.getStringExtra("modo_juego") ?: "online"
@@ -46,15 +78,38 @@ class PaginaJuego : AppCompatActivity() {
 
         // Configurar las vistas
         textoTurno = findViewById(R.id.textoTurno)
+        textoTiempo = findViewById(R.id.textoTiempo)
+        textoNivel = findViewById(R.id.textoNivel)
         grid = findViewById(R.id.grid)
+
         val botonReiniciar = findViewById<Button>(R.id.buttonReiniciar)
         val botonVolver = findViewById<Button>(R.id.botonVolver)
 
         // Configurar según el modo de juego
         if (modoJuego == "local") {
             configurarModoLocal()
-        } else {
+            // Ocultar elementos del modo desafío
+            textoTiempo.visibility = View.GONE
+            textoNivel.visibility = View.GONE
+            botonReiniciar.visibility = View.VISIBLE
+        }
+        if (modoJuego == "desafio"){
+            configurarModoDesafio()
+
+
+            // Mostrar elementos del modo desafío
+            textoTiempo.visibility = View.VISIBLE
+            textoNivel.visibility = View.VISIBLE
+            botonReiniciar.visibility = View.GONE
+            textoTurno.visibility = View.GONE
+
+        }
+        if (modoJuego == "online"){
             configurarModoOnline()
+
+            // Ocultar elementos del modo desafío
+            textoTiempo.visibility = View.GONE
+            textoNivel.visibility = View.GONE
             botonReiniciar.visibility = View.GONE
         }
 
@@ -71,6 +126,169 @@ class PaginaJuego : AppCompatActivity() {
             }
         }
     }
+
+    // --- MODO  DESAFIO --- //
+
+    private fun configurarModoDesafio() {
+
+        Log.d("PaginaJuego", "Configurando modo DESAFÍO")
+
+        juegoTerminado = false
+        temporizador?.detener()
+
+        controladorDesafio.configurarNivel()
+        inicializarTableroDesafio(controladorDesafio.tableroTamano)
+
+        textoNivel.text = "Nivel ${controladorDesafio.nivelActual}"
+
+        iniciarTemporizador()
+
+    }
+
+    private fun inicializarTableroDesafio(tamano: Int) {
+        grid.columnCount = tamano
+        grid.rowCount = tamano
+        grid.removeAllViews()  // Eliminar los botones anteriores
+
+        jugadas = Array(tamano) { arrayOfNulls<String>(tamano) }
+
+        for (i in 0 until tamano) {
+            for (j in 0 until tamano) {
+                // Crear botón programáticamente
+                val boton = ImageButton(this).apply {
+                    layoutParams = GridLayout.LayoutParams().apply {
+                        width = 0
+                        height = 0
+                        columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                        rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                        setMargins(4, 4, 4, 4)
+                    }
+                    setBackgroundResource(R.drawable.green_button)
+                    scaleType = ImageView.ScaleType.CENTER_INSIDE
+                    contentDescription = "Casilla $i-$j"
+                }
+
+                grid.addView(boton)
+
+                val fila = i
+                val col = j
+
+                boton.setOnClickListener { clickJugadorDesafio(fila, col, boton) }
+            }
+        }
+    }
+
+
+    private fun clickJugadorDesafio(fila: Int, col: Int, boton: ImageButton) {
+
+        if (jugadas[fila][col] != null || juegoTerminado) return
+
+        jugadas[fila][col] = "X"
+        aplicarSkin(boton, "X")
+
+        if (chequearGanador()) {
+            ganarJugadorDesafio()
+            return
+        }
+
+        if (tableroLleno()) {
+            juegoTerminado = true
+            temporizador?.detener()
+            Toast.makeText(this, "¡Empate! Intenta de nuevo", Toast.LENGTH_LONG).show()
+            configurarModoDesafio() // Reiniciar mismo nivel
+            return
+        }
+
+        moverIA()
+    }
+
+    private fun moverIA() {
+        val jugada = motorIA.elegirJugadaIA(jugadas, controladorDesafio.probabilidadIA)
+            ?: return
+
+        val (fila, col) = jugada
+        val boton = grid.getChildAt(fila * controladorDesafio.tableroTamano + col) as ImageButton
+
+        jugadas[fila][col] = "O"
+        aplicarSkin(boton, "O")
+
+        if (chequearGanador()) {
+            perderJugadorDesafio()
+            return
+        }
+
+        // ✅ AGREGAR: Verificar empate después del movimiento de IA
+        if (tableroLleno()) {
+            juegoTerminado = true
+            temporizador?.detener()
+            Toast.makeText(this, "¡Empate! Intenta de nuevo", Toast.LENGTH_LONG).show()
+            configurarModoDesafio() // Reiniciar mismo nivel
+        }
+    }
+
+    private fun iniciarTemporizador() {
+
+        temporizador?.detener()
+
+        temporizador = Temporizador(
+            controladorDesafio.tiempoRestante * 1000L,
+            onTick = { segundos ->
+                runOnUiThread {
+                    textoTiempo.text = "Tiempo restante: $segundos s"
+                }
+
+            },
+            onFinish = {
+                runOnUiThread {
+                    perderJugadorDesafio()
+                }
+
+            }
+        )
+        temporizador?.iniciar()
+    }
+
+    private fun ganarJugadorDesafio() {
+        juegoTerminado = true
+        temporizador?.detener()
+
+        Toast.makeText(this, "¡Ganaste el nivel!", Toast.LENGTH_LONG).show()
+
+        controladorDesafio.avanzaNivel()
+        configurarModoDesafio()
+    }
+
+    private fun perderJugadorDesafio() {
+        juegoTerminado = true
+        temporizador?.detener()
+
+        Toast.makeText(this, "Perdiste el desafío 😔", Toast.LENGTH_LONG).show()
+
+        val intent = Intent(this, pagina_juego_ia::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        finish()
+    }
+
+    private fun configurarBotonesTableroDesafio() {
+        val tamano = controladorDesafio.tableroTamano
+
+        for (i in 0 until grid.childCount) {
+            val boton = grid.getChildAt(i) as ImageButton
+            val fila = i / tamano
+            val col = i % tamano
+
+            boton.setOnClickListener {
+                clickJugadorDesafio(fila, col, boton)
+            }
+        }
+    }
+
+
+
+
+
+
 
     private fun configurarModoLocal() {
         Log.d("PaginaJuego", "Configurando modo LOCAL")
@@ -146,11 +364,8 @@ class PaginaJuego : AppCompatActivity() {
         jugadas[row][col] = turnoJugador
 
         // Actualizar UI del botón
-        if (turnoJugador == "X") {
-            boton.setImageResource(R.drawable.ic_x)
-        } else {
-            boton.setImageResource(R.drawable.ic_c)
-        }
+        aplicarSkin(boton, turnoJugador)
+
 
         // Verificar si hay ganador o empate
         if (chequearGanador()) {
@@ -320,9 +535,9 @@ class PaginaJuego : AppCompatActivity() {
                     // Actualizar UI
                     val boton = grid.getChildAt(i * 3 + j) as ImageButton
                     if (valorFirebase.uppercase() == "X") {
-                        boton.setImageResource(R.drawable.ic_x)
+                        aplicarSkin(boton, "X")
                     } else {
-                        boton.setImageResource(R.drawable.ic_c)
+                        aplicarSkin(boton, "O")
                     }
 
                     cambiosHechos = true
@@ -401,43 +616,83 @@ class PaginaJuego : AppCompatActivity() {
     // ================== FUNCIONES AUXILIARES COMPARTIDAS ==================
 
     private fun obtenerGanador(): String? {
-        // Verificar filas
-        for (i in 0..2) {
-            if (jugadas[i][0] != null &&
-                jugadas[i][0] == jugadas[i][1] &&
-                jugadas[i][0] == jugadas[i][2]) {
-                return jugadas[i][0]
+        val tamano = jugadas.size
+        val ganar = 3  // ✅ SIEMPRE buscar 3 en raya
+
+        // 1️⃣ Verificar todas las filas
+        for (i in 0 until tamano) {
+            for (startCol in 0..tamano - ganar) {
+                val primero = jugadas[i][startCol]
+                if (primero == null) continue
+
+                var todosIguales = true
+                for (k in 1 until ganar) {
+                    if (jugadas[i][startCol + k] != primero) {
+                        todosIguales = false
+                        break
+                    }
+                }
+                if (todosIguales) return primero
             }
         }
 
-        // Verificar columnas
-        for (i in 0..2) {
-            if (jugadas[0][i] != null &&
-                jugadas[0][i] == jugadas[1][i] &&
-                jugadas[0][i] == jugadas[2][i]) {
-                return jugadas[0][i]
+        // 2️⃣ Verificar todas las columnas
+        for (j in 0 until tamano) {
+            for (startRow in 0..tamano - ganar) {
+                val primero = jugadas[startRow][j]
+                if (primero == null) continue
+
+                var todosIguales = true
+                for (k in 1 until ganar) {
+                    if (jugadas[startRow + k][j] != primero) {
+                        todosIguales = false
+                        break
+                    }
+                }
+                if (todosIguales) return primero
             }
         }
 
-        // Verificar diagonales
-        if (jugadas[0][0] != null &&
-            jugadas[0][0] == jugadas[1][1] &&
-            jugadas[1][1] == jugadas[2][2]) {
-            return jugadas[0][0]
+        // 3️⃣ Verificar diagonales principales (\)
+        for (i in 0..tamano - ganar) {
+            for (j in 0..tamano - ganar) {
+                val primero = jugadas[i][j]
+                if (primero == null) continue
+
+                var todosIguales = true
+                for (k in 1 until ganar) {
+                    if (jugadas[i + k][j + k] != primero) {
+                        todosIguales = false
+                        break
+                    }
+                }
+                if (todosIguales) return primero
+            }
         }
 
-        if (jugadas[0][2] != null &&
-            jugadas[0][2] == jugadas[1][1] &&
-            jugadas[1][1] == jugadas[2][0]) {
-            return jugadas[0][2]
+        // 4️⃣ Verificar diagonales inversas (/)
+        for (i in 0..tamano - ganar) {
+            for (j in ganar - 1 until tamano) {
+                val primero = jugadas[i][j]
+                if (primero == null) continue
+
+                var todosIguales = true
+                for (k in 1 until ganar) {
+                    if (jugadas[i + k][j - k] != primero) {
+                        todosIguales = false
+                        break
+                    }
+                }
+                if (todosIguales) return primero
+            }
         }
 
         return null
     }
 
     private fun tableroLleno(): Boolean {
-        for (i in 0..2) {
-            for (j in 0..2) {
+        for (i in jugadas.indices) {
+            for (j in jugadas[i].indices) {
                 if (jugadas[i][j] == null) {
                     return false
                 }
@@ -447,35 +702,95 @@ class PaginaJuego : AppCompatActivity() {
     }
 
     private fun chequearGanador(): Boolean {
-        // Filas
-        for (i in 0..2) {
-            if (jugadas[i][0] != null &&
-                jugadas[i][0] == jugadas[i][1] &&
-                jugadas[i][0] == jugadas[i][2]
-            ) return true
+        val tamano = jugadas.size
+        val ganar = 3
+
+        // Verificar todas filas
+        for (i in 0 until tamano){
+            for (startCol in 0..tamano - ganar){
+                val primero = jugadas[i][startCol]
+                if (primero == null) continue
+
+                var gano = true
+                for (k in 1 until ganar){
+                    if (jugadas[i][startCol + k] != primero){
+                        gano = false
+                        break
+                    }
+                }
+                if (gano) return true
+
+            }
+
         }
 
-        // Columnas
-        for (i in 0..2) {
-            if (jugadas[0][i] != null &&
-                jugadas[0][i] == jugadas[1][i] &&
-                jugadas[0][i] == jugadas[2][i]
-            ) return true
+        // 2️⃣ Verificar todas las columnas
+        for (j in 0 until tamano) {
+            for (startRow in 0..tamano - ganar) {
+                val primero = jugadas[startRow][j]
+                if (primero == null) continue
+
+                var gano = true
+                for (k in 1 until ganar) {
+                    if (jugadas[startRow + k][j] != primero) {
+                        gano = false
+                        break
+                    }
+                }
+                if (gano) return true
+            }
         }
 
-        // Diagonales
-        if (jugadas[0][0] != null &&
-            jugadas[0][0] == jugadas[1][1] &&
-            jugadas[1][1] == jugadas[2][2]
-        ) return true
+        // 3️⃣ Verificar diagonales principales (\)
+        for (i in 0..tamano - ganar) {
+            for (j in 0..tamano - ganar) {
+                val primero = jugadas[i][j]
+                if (primero == null) continue
 
-        if (jugadas[0][2] != null &&
-            jugadas[0][2] == jugadas[1][1] &&
-            jugadas[1][1] == jugadas[2][0]
-        ) return true
+                var gano = true
+                for (k in 1 until ganar) {
+                    if (jugadas[i + k][j + k] != primero) {
+                        gano = false
+                        break
+                    }
+                }
+                if (gano) return true
+            }
+        }
 
+        // 4️⃣ Verificar diagonales inversas (/)
+        for (i in 0..tamano - ganar) {
+            for (j in ganar - 1 until tamano) {
+                val primero = jugadas[i][j]
+                if (primero == null) continue
+
+                var gano = true
+                for (k in 1 until ganar) {
+                    if (jugadas[i + k][j - k] != primero) {
+                        gano = false
+                        break
+                    }
+                }
+                if (gano) return true
+            }
+        }
         return false
     }
+
+
+    private fun aplicarSkin(boton: ImageButton, tipo: String) {
+        val ruta = if (tipo == "X") skinX else skinO
+
+        if (ruta.endsWith(".png")) {
+            // Imagen personalizada (ruta interna)
+            boton.setImageURI(Uri.parse(ruta))
+        } else {
+            // Imagen desde drawable
+            val id = resources.getIdentifier(ruta, "drawable", packageName)
+            boton.setImageResource(id)
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -485,4 +800,6 @@ class PaginaJuego : AppCompatActivity() {
             Log.d("PaginaJuego", "Listener removido al destruir actividad")
         }
     }
+
+
 }
