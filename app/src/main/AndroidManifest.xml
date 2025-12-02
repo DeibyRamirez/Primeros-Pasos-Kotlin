@@ -13,11 +13,19 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".pagina_juego_ia"
+            android:name=".PaginaChat"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".PaginaUsuarios"
+            android:exported="false" />
+        <activity
+            android:name=".PaginaJuegoIA"
             android:exported="false" />
         <activity
             android:name=".Perfil"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".Personalizar"
             android:exported="false" />
@@ -32,13 +40,15 @@
         </activity>
         <activity
             android:name=".Registro"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".clasePractica"
             android:exported="false" />
         <activity
             android:name=".PaginaBienvenida"
-            android:exported="false" /> <!-- Activity código (sin intent-filter) -->
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" /> <!-- Activity código (sin intent-filter) -->
         <activity
             android:name=".PaginaCodigo"
             android:exported="false" />
@@ -47,6 +57,10 @@
             android:exported="false" />
         <activity
             android:name=".PaginaJuego"
+            android:exported="false" />
+
+        <activity
+            android:name=".MyApp"
             android:exported="false" />
         <activity
             android:name=".Logica_Basica_Kotlin"

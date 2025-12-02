@@ -6,13 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
     tools:context=".PaginaJuego">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         android:text="@string/titulo"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -35,19 +34,73 @@
         android:textColor="@color/yellow"
         android:fontFamily="@font/nabla_regular_variablefont_edpt_ehlt" />
 
-    <TextView
-        android:id="@+id/textoTiempo"
-        android:layout_width="333dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="100dp"
-        android:fontFamily="@font/nabla_regular_variablefont_edpt_ehlt"
-        android:paddingBottom="16dp"
-        android:text="Tiempo restante: 60"
-        android:textAlignment="center"
-        android:textColor="@color/yellow"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+    <!-- AVATARES Y NOMBRES (MEJORADO) -->
+    <LinearLayout
+        android:id="@+id/containerUsuarios"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp">
+
+        <!-- COLUMNA JUGADOR 1 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/avatarPerfilJ1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/circle_white"
+                android:src="@drawable/ic_c"
+                android:padding="6dp"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/nombreJ1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre1"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <!-- COLUMNA JUGADOR 2 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/avatarPerfilJ2"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/circle_white"
+                android:src="@drawable/ic_c"
+                android:padding="6dp"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/nombreJ2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre2"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textoNivel"
@@ -178,10 +231,11 @@
 
     <Button
         android:id="@+id/buttonReiniciar"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:text="@string/reiniciar"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:fontFamily="@font/luckiestguy_regular"
@@ -189,10 +243,11 @@
 
     <Button
         android:id="@+id/botonVolver"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:text="Volver"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:fontFamily="@font/luckiestguy_regular"

@@ -3,18 +3,15 @@ package com.example.myapplication
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.modelos.Usuario
-import com.google.firebase.auth.AuthResult
+import com.example.myapplication.repos.UserRepository
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -35,20 +32,33 @@ class PaginaPrincipal : BaseActivity() {
         val botonUnirse = findViewById<Button>(R.id.botonUnirse)
         val botonCrear = findViewById<Button>(R.id.botonCrear)
         val botonPerfil = findViewById<ImageButton>(R.id.btnPerfil)
+        val botonChatear = findViewById<Button>(R.id.botonChatear)
+
 
 
         var modo = intent.getStringExtra("modo_juego")
-        val idUsuario = intent.getStringExtra("id_usuario")
+        val idUsuario = intent.getStringExtra("id_usuario") ?: return
         val txtNombreUsuario = findViewById<TextView>(R.id.txtNombreUsuario)
+
+
+        val repo = UserRepository()
+        // Funcion para cargar los datos del usurio (nombre e imagen de perfil)
+        repo.cargarDatosUsuario(idUsuario) { datos ->
+            if (datos != null) {
+                datosUsuario = datos
+                txtNombreUsuario.text = datos.nombre
+
+                val idImg = resources.getIdentifier(datos.avatar, "drawable", packageName)
+                botonPerfil.setImageResource(idImg)
+            }
+        }
 
         cargarPartidasOnline()
 
 
         if (idUsuario != null) {
-            cargarDatosUsuario(
-                idUsuario,
-                txtNombreUsuario,
-                botonPerfil
+            repo.cargarDatosUsuario(
+                idUsuario
             ) { datos ->
                 datosUsuario = datos
             }
@@ -75,6 +85,8 @@ class PaginaPrincipal : BaseActivity() {
                 startActivity(intent)
             }
 
+            botonChatear.visibility = View.VISIBLE
+
         }
         else {
 
@@ -90,70 +102,31 @@ class PaginaPrincipal : BaseActivity() {
             }
 
             botonUnirse.setOnClickListener {
-                val intent = Intent(this, pagina_juego_ia::class.java)
+                val intent = Intent(this, PaginaJuegoIA::class.java)
                 intent.putExtra("id_usuario", idUsuario)
                 startActivity(intent)
             }
+
+            botonChatear.visibility = View.GONE
         }
         // Este boton da ingreso a la pantalla de Perfil del usuario.
         botonPerfil.setOnClickListener {
             datosUsuario?.let { usuario ->
                 val intent = Intent(this, Perfil::class.java)
-                intent.putExtra("id", usuario.id)
-                intent.putExtra("nombre", usuario.nombre)
-                intent.putExtra("correo", usuario.correo)
-                intent.putExtra("contraseña", usuario.contraseña)
-                intent.putExtra("avatar", usuario.avatar)
+                intent.putExtra("uid_usuario", usuario.id)
                 startActivity(intent)
             }
 
         }
 
+        botonChatear.setOnClickListener {
+            val intent = Intent(this, PaginaUsuarios::class.java)
+            intent.putExtra("id_usuario", idUsuario)
+            startActivity(intent)
+        }
 
     }
-    // Funcion para cargar los datos del usurio (nombre e imagen de perfil)
-    private fun cargarDatosUsuario(
-        id: String,
-        txtNombre: TextView,
-        botonPerfil: ImageButton,
-        callback: (Usuario) -> Unit
-    ) {
-        val dbref = FirebaseDatabase.getInstance().getReference("usuarios").child(id)
 
-        dbref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    val nombre = snapshot.child("nombre").value.toString()
-                    val correo = snapshot.child("correo").value.toString()
-                    val contraseña = snapshot.child("contraseña").value.toString()
-                    val avatar = snapshot.child("avatar").value.toString()
-
-                    val idImg = resources.getIdentifier(avatar, "drawable", packageName)
-                    botonPerfil.setImageResource(idImg)
-
-                    txtNombre.text = nombre   // 👈 mostrar nombre en pantalla
-
-                    // Enviar datos al callback
-                    // El callback es una función que se ejecuta cuando se cargan los datos.
-                    // sirve para que el callback pueda acceder a los datos del usuario.
-                    // funciona como una variable que se ejecuta cuando se cargan los datos.
-                    callback(
-                        Usuario(
-                            id = id,
-                            nombre = nombre,
-                            correo = correo,
-                            contraseña = contraseña,
-                            avatar = avatar
-                        )
-                    )
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                txtNombre.text = "Usuario"
-            }
-        })
-    }
 
     private fun cargarPartidasOnline() {
 
@@ -175,10 +148,18 @@ class PaginaPrincipal : BaseActivity() {
                     val jugador2 = partidaSnap.child("jugador2").value?.toString()
 
                     // Solo mostrar partidas donde SOLO hay un jugador
-                    val soloUnJugador = (jugador1 != null && jugador1.isNotEmpty()) &&
+                    val soloUnJugador = jugador1 != null && jugador1.isNotEmpty() &&
                             (jugador2 == null || jugador2.isEmpty())
 
-                    if (!soloUnJugador) continue
+                    // correcta lectura
+                    val partidaPrivada = partidaSnap.child("partidaPrivada").value as? Boolean ?: false
+                    val partidaFinalizada = partidaSnap.child("partidaFinalizada").value as? Boolean ?: false
+
+                    // Solo mostrar si:
+                    // 1. NO es privada
+                    // 2. NO está finalizada
+                    // 3. Solo un jugador
+                    if (partidaPrivada || partidaFinalizada || !soloUnJugador) continue
 
                     val item = LayoutInflater.from(this@PaginaPrincipal)
                         .inflate(R.layout.item_partida, partidasLayout, false)

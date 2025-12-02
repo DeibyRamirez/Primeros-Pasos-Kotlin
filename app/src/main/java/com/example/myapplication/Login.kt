@@ -57,6 +57,16 @@ class Login : BaseActivity() {
                         val usuario = childSnapshot.getValue(Usuario::class.java)
                         if (usuario?.contraseña == contraseña) {
                             Toast.makeText(this@Login, "Bienvenido", Toast.LENGTH_SHORT).show()
+
+                            val uidUsuario = childSnapshot.key ?: return
+
+                            // 🔥 Marcar en línea al iniciar sesión
+                            val ref = FirebaseDatabase.getInstance()
+                                .getReference("usuarios/$uidUsuario/enLinea")
+
+                            ref.setValue(true)
+                            ref.onDisconnect().setValue(false)
+
                             val intent = Intent(this@Login, PaginaBienvenida::class.java)
 
                             intent.putExtra("id_usuario", childSnapshot.key)  // 👈 Guardamos el ID

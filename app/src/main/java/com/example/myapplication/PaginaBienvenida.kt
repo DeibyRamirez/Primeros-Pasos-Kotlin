@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.modelos.Usuario
+import com.example.myapplication.repos.UserRepository
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -29,9 +30,15 @@ class PaginaBienvenida : BaseActivity() {
         val botonlocal = findViewById<Button>(R.id.botonlocal)
         val botononline = findViewById<Button>(R.id.botononline)
         var modo: String? = null
-        val idUsuario = intent.getStringExtra("id_usuario")
+        val idUsuario = intent.getStringExtra("id_usuario") ?: return
         val botonEnviar = findViewById<ImageButton>(R.id.btnEnviar)
 
+        // Uso el repo para cargar los datos del usuario con UserRepository.kt
+        val repo = UserRepository()
+
+        repo.cargarDatosUsuario(idUsuario) { datos ->
+            datosUsuario = datos
+        }
 
         cargarChatGlobal()
 
@@ -88,14 +95,13 @@ class PaginaBienvenida : BaseActivity() {
     // Funcion para cargar mensajes del chat global
     private fun cargarChatGlobal() {
 
-        // Cargar mensajes del chat global
         val chatLayout = findViewById<LinearLayout>(R.id.contenedorChat)
-
         val chatRef = FirebaseDatabase.getInstance().getReference("chat_global")
 
         chatRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
+                chatLayout.removeAllViews() // 🔥 IMPORTANTE
 
                 for (mensajeSnap in snapshot.children) {
 
@@ -117,4 +123,5 @@ class PaginaBienvenida : BaseActivity() {
             override fun onCancelled(error: DatabaseError) {}
         })
     }
+
 }

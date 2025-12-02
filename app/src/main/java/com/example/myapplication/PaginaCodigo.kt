@@ -2,8 +2,10 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -32,6 +34,9 @@ class PaginaCodigo : BaseActivity() {
         val botonIngresar = findViewById<Button>(R.id.botonIngresar)
         var textoModo = findViewById<TextView>(R.id.textoModo)
         var textoIntrucciones = findViewById<TextView>(R.id.textoInstrucciones)
+        val checkboxPrivada = findViewById<CheckBox>(R.id.checkboxPrivada)
+
+
 
         val modo = intent.getStringExtra("modo") ?: "crear" // "crear" o "unirse"
 
@@ -39,19 +44,19 @@ class PaginaCodigo : BaseActivity() {
             val codigoGenerado = generarCodigoPartida()
             editarCodigo.setText(codigoGenerado)
             editarCodigo.isEnabled = false //No permite editarlo
-            textoModo.text = "Codigo de tu partida:"
+            textoModo.text = "Codigo de tu partida"
             botonIngresar.text = "Crear partida"
             textoIntrucciones.text = "Comparte este código con tu amigo para que se pueda unir a tu partida..."
-
+            checkboxPrivada.visibility = View.VISIBLE
 
 
         }else {
             // Modo unirse - permitir ingresar código
-            textoModo.text = "Ingresa el código de partida:"
+            textoModo.text = "Ingresa el código de partida"
             botonIngresar.text = "UNIRSE A PARTIDA"
             editarCodigo.hint = "Ejemplo: ABC123"
             textoIntrucciones.text = "Usa el código de partida que te compartierón para que puedas unirte a su partida..."
-
+            checkboxPrivada.visibility = View.GONE
         }
 
         val database = FirebaseDatabase.getInstance()
@@ -69,7 +74,7 @@ class PaginaCodigo : BaseActivity() {
             }
             try {
                 if (modo == "crear") {
-                    crearPartida(gamesRef, codigo)
+                    crearPartida(gamesRef, codigo, checkboxPrivada.isChecked)
                 } else {
                     unirseAPartida(gamesRef, codigo)
 
@@ -92,7 +97,7 @@ class PaginaCodigo : BaseActivity() {
 
     }
 
-    private fun crearPartida(gamesRef: DatabaseReference, codigo: String) {
+    private fun crearPartida(gamesRef: DatabaseReference, codigo: String, partidaPrivada: Boolean) {
         // Registrar evento personalizado
 
         crashlytics.log("Creando partida con codigo: $codigo")
@@ -111,7 +116,10 @@ class PaginaCodigo : BaseActivity() {
                 "0_0" to "", "0_1" to "", "0_2" to "",
                 "1_0" to "", "1_1" to "", "1_2" to "",
                 "2_0" to "", "2_1" to "", "2_2" to "",
-            )
+            ),
+            "partidaPrivada" to partidaPrivada,
+            "partidaFinalizada" to false,
+
 
         )
 

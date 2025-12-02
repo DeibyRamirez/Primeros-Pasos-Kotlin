@@ -5,6 +5,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 
 open class BaseActivity : AppCompatActivity() {
@@ -19,20 +21,17 @@ open class BaseActivity : AppCompatActivity() {
 
                 val root = findViewById<View>(android.R.id.content)
 
-
                 if (fondo.isNullOrEmpty()) {
                     root.setBackgroundResource(R.drawable.f2)
                     return@collect
                 }
 
-                // Si es un drawable interno (f1, f2, f3)
                 val idDrawable = resources.getIdentifier(fondo, "drawable", packageName)
                 if (idDrawable != 0) {
                     root.setBackgroundResource(idDrawable)
                     return@collect
                 }
 
-                // Si es una imagen personalizada (ruta de archivo)
                 val bitmap = BitmapFactory.decodeFile(fondo)
                 if (bitmap != null) {
                     root.background = BitmapDrawable(resources, bitmap)

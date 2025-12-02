@@ -12,12 +12,11 @@ import android.net.Uri
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.viewfinder.core.ScaleType
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.desafio.ControladorDesafio
 import com.example.myapplication.desafio.MotorIA
 import com.example.myapplication.desafio.Temporizador
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.coroutines.launch
 
@@ -41,8 +40,14 @@ class PaginaJuego : BaseActivity() {
     // Variables UI
     private lateinit var textoTurno: TextView
     private lateinit var textoNivel: TextView
-    private lateinit var textoTiempo: TextView
     private lateinit var grid: GridLayout
+
+    // Variables UI Usuarios
+    private lateinit var textoJugador1: TextView
+    private lateinit var textoJugador2: TextView
+    private lateinit var avatarJugador1: ImageButton
+    private lateinit var avatarJugador2: ImageButton
+
 
 
 
@@ -68,6 +73,9 @@ class PaginaJuego : BaseActivity() {
         lifecycleScope.launch {
             skinX = prefs.leerSkinX()        // puede ser "ic_x" o una ruta interna
             skinO = prefs.leerSkinO()        // puede ser "ic_c" o una ruta interna
+
+            if (skinX.isEmpty()) skinX = "ic_x"
+            if (skinO.isEmpty()) skinO = "ic_c"
         }
 
 
@@ -78,9 +86,15 @@ class PaginaJuego : BaseActivity() {
 
         // Configurar las vistas
         textoTurno = findViewById(R.id.textoTurno)
-        textoTiempo = findViewById(R.id.textoTiempo)
         textoNivel = findViewById(R.id.textoNivel)
         grid = findViewById(R.id.grid)
+
+        // Configurar las vistas para los datos de los 2 Usuarios
+        textoJugador1 = findViewById(R.id.nombreJ1)
+        textoJugador2 = findViewById(R.id.nombreJ2)
+        avatarJugador1 = findViewById(R.id.avatarPerfilJ1)
+        avatarJugador2 = findViewById(R.id.avatarPerfilJ2)
+
 
         val botonReiniciar = findViewById<Button>(R.id.buttonReiniciar)
         val botonVolver = findViewById<Button>(R.id.botonVolver)
@@ -89,26 +103,24 @@ class PaginaJuego : BaseActivity() {
         if (modoJuego == "local") {
             configurarModoLocal()
             // Ocultar elementos del modo desafío
-            textoTiempo.visibility = View.GONE
             textoNivel.visibility = View.GONE
             botonReiniciar.visibility = View.VISIBLE
         }
+
         if (modoJuego == "desafio"){
             configurarModoDesafio()
 
-
             // Mostrar elementos del modo desafío
-            textoTiempo.visibility = View.VISIBLE
             textoNivel.visibility = View.VISIBLE
             botonReiniciar.visibility = View.GONE
-            textoTurno.visibility = View.GONE
+            textoTurno.visibility = View.VISIBLE
 
         }
+
         if (modoJuego == "online"){
             configurarModoOnline()
 
             // Ocultar elementos del modo desafío
-            textoTiempo.visibility = View.GONE
             textoNivel.visibility = View.GONE
             botonReiniciar.visibility = View.GONE
         }
@@ -116,8 +128,8 @@ class PaginaJuego : BaseActivity() {
         // Configurar botones
         botonVolver.setOnClickListener {
             val intent = Intent(this, PaginaBienvenida::class.java)
+            intent.putExtra("id_usuario", FirebaseAuth.getInstance().currentUser!!.uid)
             startActivity(intent)
-            finish()
         }
 
         botonReiniciar.setOnClickListener {
@@ -234,7 +246,7 @@ class PaginaJuego : BaseActivity() {
             controladorDesafio.tiempoRestante * 1000L,
             onTick = { segundos ->
                 runOnUiThread {
-                    textoTiempo.text = "Tiempo restante: $segundos s"
+                    textoTurno.text = "Tiempo restante: $segundos s"
                 }
 
             },
@@ -264,7 +276,7 @@ class PaginaJuego : BaseActivity() {
 
         Toast.makeText(this, "Perdiste el desafío 😔", Toast.LENGTH_LONG).show()
 
-        val intent = Intent(this, pagina_juego_ia::class.java)
+        val intent = Intent(this, PaginaJuegoIA::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         finish()
@@ -373,6 +385,7 @@ class PaginaJuego : BaseActivity() {
             juegoTerminado = true
             textoTurno.text = "¡Ganó $ganador! 🎉"
             Toast.makeText(this, "¡Ganó $ganador!", Toast.LENGTH_LONG).show()
+
             return
         }
 
@@ -482,15 +495,42 @@ class PaginaJuego : BaseActivity() {
                     return
                 }
 
-                // Actualizar turno
+                // ---------------------------------------------------------
+                // ✔ 1. PRIMERO verificar si la partida terminó
+                // ---------------------------------------------------------
+                val finalizada = snapshot.child("partidaFinalizada").getValue(Boolean::class.java) ?: false
+                if (finalizada && !juegoTerminado) {
+
+                    juegoTerminado = true
+                    val ganador = snapshot.child("ganador").getValue(String::class.java)
+
+                    when (ganador) {
+                        "empate" -> {
+                            textoTurno.text = "¡EMPATE! 🤝"
+                            Toast.makeText(this@PaginaJuego, "¡Empate!", Toast.LENGTH_LONG).show()
+                        }
+                        yoSoy -> {
+                            textoTurno.text = "¡GANASTE! 🎉"
+                            Toast.makeText(this@PaginaJuego, "Ganaste la partida", Toast.LENGTH_LONG).show()
+                        }
+                        else -> {
+                            textoTurno.text = "Perdiste 😔"
+                            Toast.makeText(this@PaginaJuego, "Perdiste la partida", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    // No actualizar turno ni tablero
+                    return
+                }
+
+                // ---------------------------------------------------------
+                // ✔ 2. Si NO ha terminado, actualizar turno
+                // ---------------------------------------------------------
                 val turnoFirebase = snapshot.child("turno").getValue(String::class.java) ?: "x"
                 turnoJugador = turnoFirebase.uppercase()
 
-                // Actualizar texto del turno
                 val esMiTurno = turnoFirebase == yoSoy
-                textoTurno.text = if (juegoTerminado) {
-                    textoTurno.text // Mantener mensaje de fin de juego
-                } else if (esMiTurno) {
+                textoTurno.text = if (esMiTurno) {
                     "¡Tu turno! (${yoSoy.uppercase()})"
                 } else {
                     "Turno del oponente (${turnoFirebase.uppercase()})"
@@ -498,7 +538,9 @@ class PaginaJuego : BaseActivity() {
 
                 Log.d("PaginaJuego", "Turno actualizado: $turnoFirebase, Es mi turno: $esMiTurno")
 
-                // Actualizar tablero desde Firebase
+                // ---------------------------------------------------------
+                // ✔ 3. Actualizar tablero
+                // ---------------------------------------------------------
                 actualizarTableroDesdeFirebase(snapshot)
             }
 
@@ -510,6 +552,7 @@ class PaginaJuego : BaseActivity() {
 
         partidaRef.addValueEventListener(gameListener!!)
     }
+
 
     private fun actualizarTableroDesdeFirebase(snapshot: DataSnapshot) {
         Log.d("PaginaJuego", "Actualizando tablero desde Firebase")
@@ -552,25 +595,45 @@ class PaginaJuego : BaseActivity() {
     }
 
     private fun verificarEstadoJuegoOnline() {
+
         if (chequearGanador()) {
-            val ganador = obtenerGanador()
+            val ganador = obtenerGanador()?.lowercase()
             juegoTerminado = true
 
-            val mensaje = if (ganador?.lowercase() == yoSoy) {
-                "¡GANASTE! 🎉"
-            } else {
-                "Perdiste 😔"
-            }
+            val yoGano = ganador == yoSoy
 
-            textoTurno.text = "$mensaje - Ganó $ganador"
+            val mensaje = if (yoGano) "¡GANASTE! 🎉" else "Perdiste 😔"
+            textoTurno.text = mensaje
             Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
 
-        } else if (tableroLleno()) {
+            // 🔥 ACTUALIZAR ESTADO DE PARTIDA TERMINADA
+            val datosFinalizacion = hashMapOf<String, Any>(
+                "partidaFinalizada" to true,
+                "ganador" to ganador!!,
+                "fechaFinalizacion" to System.currentTimeMillis()
+            )
+
+            partidaRef.updateChildren(datosFinalizacion)
+
+            return
+        }
+
+        if (tableroLleno()) {
             juegoTerminado = true
             textoTurno.text = "¡EMPATE! 🤝"
             Toast.makeText(this, "¡Empate!", Toast.LENGTH_LONG).show()
+
+            // 🔥 GUARDAR EMPATE EN FIREBASE
+            val datosFinalizacion = hashMapOf<String, Any>(
+                "partidaFinalizada" to true,
+                "ganador" to "empate",
+                "fechaFinalizacion" to System.currentTimeMillis()
+            )
+
+            partidaRef.updateChildren(datosFinalizacion)
         }
     }
+
 
     private fun reiniciarJuegoFirebase() {
         Log.d("PaginaJuego", "Reiniciando juego en Firebase")
