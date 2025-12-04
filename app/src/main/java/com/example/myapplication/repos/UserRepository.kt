@@ -8,6 +8,9 @@ import com.google.firebase.database.ValueEventListener
 
 class UserRepository {
 
+    companion object {
+        var miId: String = ""   // <--- ESTA ES LA VARIABLE QUE FALTABA
+    }
     private val db = FirebaseDatabase.getInstance().getReference("usuarios")
 
     fun cargarDatosUsuario(

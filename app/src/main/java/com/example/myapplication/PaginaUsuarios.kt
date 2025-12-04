@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.modelos.Usuario
 import com.example.myapplication.repos.UserRepository
 import com.example.myapplication.repos.UsuariosAdapter
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -31,9 +32,14 @@ class PaginaUsuarios : BaseActivity() {
 
         var botonPerfil = findViewById<ImageButton>(R.id.btnPerfil)
         var nombreUsuario = findViewById<TextView>(R.id.txtNombreUsuario)
-        val idUsuario = intent.getStringExtra("id_usuario") ?: return
-        listaUsuarios = findViewById(R.id.listaUsuarios)
 
+
+        // UID real del usuario actual
+        val idUsuario = FirebaseAuth.getInstance().currentUser!!.uid
+
+        UserRepository.miId = idUsuario
+
+        listaUsuarios = findViewById(R.id.listaUsuarios)
         // Esta linea le dice al recyclerView como se va a mostrar los datos y donde.
         listaUsuarios.layoutManager = LinearLayoutManager(this)
 
@@ -90,10 +96,11 @@ class PaginaUsuarios : BaseActivity() {
                             usuarios.add(u)
                         }
                     }
-                    // mi usuario actual no debe estar en esa lista.
-                    usuarios.removeAll { it.id == datosUsuario?.id }
+
 
                 }
+                // mi usuario actual no debe estar en esa lista.
+                usuarios.removeAll { it.id == UserRepository.miId }
 
                 adapter.notifyDataSetChanged()
             }

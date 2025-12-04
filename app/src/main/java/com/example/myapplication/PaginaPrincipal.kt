@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import com.example.myapplication.modelos.Usuario
 import com.example.myapplication.repos.UserRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -135,6 +136,7 @@ class PaginaPrincipal : BaseActivity() {
 
         val db = FirebaseDatabase.getInstance().getReference("games")
 
+
         db.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -170,7 +172,7 @@ class PaginaPrincipal : BaseActivity() {
                     txtCodigo.text = "Código: $codigo"
 
                     btnUnirse.setOnClickListener {
-                        unirseAPartida(codigo)
+                        unirseAPartida(db, codigo)
                     }
 
                     partidasLayout.addView(item)
@@ -182,34 +184,45 @@ class PaginaPrincipal : BaseActivity() {
         })
     }
 
-    private fun unirseAPartida(codigo: String) {
+    private fun unirseAPartida(gamesRef: DatabaseReference, codigo: String) {
 
-        val partidaRef = FirebaseDatabase.getInstance().getReference("games").child(codigo)
+        val user = FirebaseAuth.getInstance().currentUser!!
+        val repo = UserRepository()
 
-        partidaRef.get().addOnSuccessListener { snapshot ->
+        repo.cargarDatosUsuario(user.uid) { datos ->
 
-            if (!snapshot.exists()) {
-                Toast.makeText(this, "Código inválido", Toast.LENGTH_SHORT).show()
-                return@addOnSuccessListener
+            if (datos == null) {
+                Toast.makeText(this, "No pude cargar tu perfil", Toast.LENGTH_SHORT).show()
+                return@cargarDatosUsuario
             }
 
-            val jugador1 = snapshot.child("jugador1").value as? String
-            val jugador2 = snapshot.child("jugador2").value as? String
+            val nombre = datos.nombre
+            val avatar = datos.avatar
 
-            // Si el segundo jugador ya existe, la partida está llena
-            if (jugador2 != null && jugador2.isNotEmpty()) {
-                Toast.makeText(this, "La partida está llena", Toast.LENGTH_SHORT).show()
-                return@addOnSuccessListener
-            }
+            val partidaRef = gamesRef.child(codigo)
 
-            // Registrar jugador2
-            partidaRef.child("jugador2").setValue("o").addOnSuccessListener {
+            // Antes de unirte, refrescar JUGADOR1 desde Firebase
+            partidaRef.child("jugador1").get().addOnSuccessListener { snap1 ->
+                if (snap1.exists()) {
+                    // OK, jugador1 válido
+                }
 
-                val intent = Intent(this, PaginaJuego::class.java)
-                intent.putExtra("codigo_partida", codigo)
-                intent.putExtra("yoSoy", "o")
-                intent.putExtra("modo_juego", "online")
-                startActivity(intent)
+                // Unirse como jugador2
+                partidaRef.child("jugador2").setValue(
+                    mapOf(
+                        "uid" to user.uid,
+                        "nombre" to nombre,
+                        "avatar" to avatar,
+                        "ficha" to "o"
+                    )
+                ).addOnSuccessListener {
+
+                    // Ir al juego
+                    val intent = Intent(this, PaginaJuego::class.java)
+                    intent.putExtra("codigo_partida", codigo)
+                    intent.putExtra("yoSoy", "o")
+                    startActivity(intent)
+                }
             }
         }
     }

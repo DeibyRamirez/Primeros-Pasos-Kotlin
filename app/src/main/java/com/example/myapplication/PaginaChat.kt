@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import com.example.myapplication.modelos.Usuario
 import com.example.myapplication.repos.UserRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class PaginaChat : BaseActivity() {
@@ -27,7 +28,16 @@ class PaginaChat : BaseActivity() {
         setContentView(R.layout.activity_pagina_chat)
 
         val uidUsuario = intent.getStringExtra("uid_usuario") ?: ""
-        uidActual = intent.getStringExtra("uid_usuario") ?: ""
+
+        uidActual = FirebaseAuth.getInstance().currentUser!!.uid
+
+        // ✔ Evitar chats consigo mismo
+        if (uidUsuario == uidActual) {
+            finish()
+            return
+        }
+
+
 
         // Inicializar vistas
         contenedorChat = findViewById(R.id.contenedorChat)
@@ -65,7 +75,7 @@ class PaginaChat : BaseActivity() {
      * Genera un ID único para un chat entre dos personas
      */
     private fun generarChatId(uid1: String, uid2: String): String {
-        return if (uid1 < uid2) "${uid1}_${uid2}" else "${uid2}_${uid1}"
+        return if (uid1.compareTo(uid2) < 0) "${uid1}_${uid2}" else "${uid2}_${uid1}"
     }
 
     /***
@@ -75,7 +85,7 @@ class PaginaChat : BaseActivity() {
         val texto = editMensaje.text.toString().trim()
         if (texto.isEmpty()) return
 
-        val ref = FirebaseDatabase.getInstance()
+        val refChat = FirebaseDatabase.getInstance()
             .getReference("chats")
             .child(chatId)
 
@@ -85,9 +95,15 @@ class PaginaChat : BaseActivity() {
             "timestamp" to System.currentTimeMillis()
         )
 
-        ref.push().setValue(mensaje)
+        // Guardar el mensaje
+        refChat.push().setValue(mensaje)
+
+        // Registrar último mensaje PARA EL ADAPTER
+        refChat.child("ultimoMensaje").setValue(texto)
+
         editMensaje.setText("")
     }
+
 
     /***
      * Escuchar mensajes en tiempo real y mostrarlos

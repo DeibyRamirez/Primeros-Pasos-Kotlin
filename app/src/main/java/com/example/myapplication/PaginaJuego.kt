@@ -10,12 +10,14 @@ import android.widget.TextView
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.desafio.ControladorDesafio
 import com.example.myapplication.desafio.MotorIA
 import com.example.myapplication.desafio.Temporizador
+import com.example.myapplication.repos.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.coroutines.launch
@@ -47,8 +49,7 @@ class PaginaJuego : BaseActivity() {
     private lateinit var textoJugador2: TextView
     private lateinit var avatarJugador1: ImageButton
     private lateinit var avatarJugador2: ImageButton
-
-
+    private lateinit var containerUsuarios: LinearLayout
 
 
     // Skin de X y O
@@ -94,10 +95,13 @@ class PaginaJuego : BaseActivity() {
         textoJugador2 = findViewById(R.id.nombreJ2)
         avatarJugador1 = findViewById(R.id.avatarPerfilJ1)
         avatarJugador2 = findViewById(R.id.avatarPerfilJ2)
-
+        containerUsuarios = findViewById(R.id.containerUsuarios)
 
         val botonReiniciar = findViewById<Button>(R.id.buttonReiniciar)
         val botonVolver = findViewById<Button>(R.id.botonVolver)
+
+        val yoSoy = intent.getStringExtra("yoSoy") ?: "x"
+
 
         // Configurar según el modo de juego
         if (modoJuego == "local") {
@@ -105,6 +109,7 @@ class PaginaJuego : BaseActivity() {
             // Ocultar elementos del modo desafío
             textoNivel.visibility = View.GONE
             botonReiniciar.visibility = View.VISIBLE
+            containerUsuarios.visibility = View.GONE
         }
 
         if (modoJuego == "desafio"){
@@ -114,15 +119,76 @@ class PaginaJuego : BaseActivity() {
             textoNivel.visibility = View.VISIBLE
             botonReiniciar.visibility = View.GONE
             textoTurno.visibility = View.VISIBLE
+            containerUsuarios.visibility = View.GONE
 
         }
 
-        if (modoJuego == "online"){
+        if (modoJuego == "online") {
             configurarModoOnline()
 
             // Ocultar elementos del modo desafío
             textoNivel.visibility = View.GONE
             botonReiniciar.visibility = View.GONE
+
+            val salaRef = FirebaseDatabase.getInstance()
+                .getReference("games")
+                .child(codigoPartida)
+
+            containerUsuarios.visibility = View.VISIBLE
+
+            if (yoSoy == "x") {
+                // Cargo jugador1 (yo)
+                salaRef.child("jugador1").get().addOnSuccessListener { snap ->
+                    val nombre = snap.child("nombre").value.toString()
+                    val avatar = snap.child("avatar").value.toString()
+
+                    textoJugador1.text = nombre
+                    cargarAvatar(avatar, avatarJugador1)
+                }
+
+                // Espero al jugador2
+                salaRef.child("jugador2").addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (!snapshot.exists()) return
+
+                        val nombre = snapshot.child("nombre").value.toString()
+                        val avatar = snapshot.child("avatar").value.toString()
+
+                        textoJugador2.text = nombre
+                        cargarAvatar(avatar, avatarJugador2)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {}
+                })
+            }
+
+            if (yoSoy == "o") {
+
+                // Cargar jugador1 (EL OTRO)
+                salaRef.child("jugador1")
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snap: DataSnapshot) {
+                            if (!snap.exists()) return
+
+                            val nombre = snap.child("nombre").value.toString()
+                            val avatar = snap.child("avatar").value.toString()
+
+                            textoJugador1.text = nombre
+                            cargarAvatar(avatar, avatarJugador1)
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+
+                // Cargar jugador2 (YO)
+                salaRef.child("jugador2").get().addOnSuccessListener { snap ->
+                    val nombre = snap.child("nombre").value.toString()
+                    val avatar = snap.child("avatar").value.toString()
+
+                    textoJugador2.text = nombre
+                    cargarAvatar(avatar, avatarJugador2)
+                }
+            }
         }
 
         // Configurar botones
@@ -130,6 +196,7 @@ class PaginaJuego : BaseActivity() {
             val intent = Intent(this, PaginaBienvenida::class.java)
             intent.putExtra("id_usuario", FirebaseAuth.getInstance().currentUser!!.uid)
             startActivity(intent)
+            finish()
         }
 
         botonReiniciar.setOnClickListener {
@@ -138,6 +205,17 @@ class PaginaJuego : BaseActivity() {
             }
         }
     }
+
+    private fun cargarAvatar(nombreAvatar: String, imageButton: ImageButton) {
+        val idImg = resources.getIdentifier(nombreAvatar, "drawable", packageName)
+        if (idImg != 0) {
+            imageButton.setImageResource(idImg)
+        } else {
+            imageButton.setImageResource(R.drawable.ic_c) // avatar por defecto
+        }
+    }
+
+
 
     // --- MODO  DESAFIO --- //
 

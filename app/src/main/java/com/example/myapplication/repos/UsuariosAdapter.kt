@@ -13,7 +13,10 @@ import com.example.myapplication.Perfil
 import com.example.myapplication.R
 import com.example.myapplication.modelos.Usuario
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 // Esta clase sirve para cargar los datos en el recyclerView.
 // Usando el layout item_usuario.xml
@@ -30,6 +33,7 @@ class UsuariosAdapter(
         val txtNombre = view.findViewById<TextView>(R.id.txtNombreJ)
         val txtEstado = view.findViewById<TextView>(R.id.txtEstado)
         val btnChat = view.findViewById<MaterialButton>(R.id.btnChatear)
+        val ultimoMensaje = view.findViewById<TextView>(R.id.txtUltimoMensaje)
     }
 
     // Esta funcion nos ayuda a crear la vista del recyclerView.
@@ -60,6 +64,9 @@ class UsuariosAdapter(
             holder.txtEstado.setTextColor(Color.GRAY)
         }
 
+        // --- CARGAR ÚLTIMO MENSAJE ---
+        cargarUltimoMensaje(UserRepository.miId, user.id!!, holder.ultimoMensaje)
+
         holder.btnChat.setOnClickListener {
             onChatClick(user)
         }
@@ -69,6 +76,25 @@ class UsuariosAdapter(
         }
 
 
+    }
+
+    private fun cargarUltimoMensaje(miId: String, otroId: String, txt: TextView) {
+
+        val chatId = if (miId < otroId) "${miId}_${otroId}" else "${otroId}_${miId}"
+
+        val ref = FirebaseDatabase.getInstance()
+            .getReference("chats")
+            .child(chatId)
+            .child("ultimoMensaje")   // 👈 LEER DIRECTAMENTE ESTE CAMPO
+
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val mensaje = snapshot.getValue(String::class.java)
+                txt.text = mensaje ?: "No hay mensajes"
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
     override fun getItemCount(): Int = lista.size
