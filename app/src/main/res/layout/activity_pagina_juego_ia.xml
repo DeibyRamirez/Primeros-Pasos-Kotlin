@@ -10,12 +10,14 @@
     tools:context=".PaginaJuegoIA">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="@string/titulo"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorTitulo"
+        android:layout_gravity="center"
+        android:background="@drawable/fondo_titulo"
         android:textSize="50sp"
         android:fontFamily="@font/luckiestguy_regular"
         android:textStyle="bold" />
@@ -32,8 +34,8 @@
         <!-- Instrucciones adicionales -->
         <TextView
             android:id="@+id/textoInstrucciones"
-            android:layout_width="300dp"
-            android:layout_height="500dp"
+            android:layout_width="wrap_content"
+            android:layout_height="350dp"
             android:text="@string/instrucciones"
             android:layout_gravity="center"
             android:textColor="@color/black"

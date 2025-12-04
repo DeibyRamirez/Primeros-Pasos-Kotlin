@@ -12,6 +12,14 @@
 
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
+        <item name="colorTitulo">@color/textoTitulo</item>
+        <item name="colorNormal">@color/textoNormal</item>
+        <item name="colorBoton">@color/botonFondo</item>
+        <item name="colorBotonTexto">@color/botonTexto</item>
+        <item name="colorFondoTexto">@color/fondoTexto</item>
+
+
+
     </style>
 
 </resources>

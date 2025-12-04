@@ -31,26 +31,29 @@
     </LinearLayout>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/luckiestguy_regular"
         android:text="@string/titulo"
+        android:layout_gravity="center"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:background="@drawable/fondo_titulo"
+        android:textColor="?attr/colorTitulo"
         android:textSize="50sp" />
 
 
 
     <!-- Título del chat -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/luckiestguy_regular"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorTitulo"
+        android:background="@drawable/fondo_titulo"
         android:textSize="20sp"
-        android:gravity="center"
+        android:layout_gravity="center"
         android:text="@string/Chat_Global" />
 
     <!-- CHAT CON SCROLL -->
@@ -83,7 +86,8 @@
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_white"
+            android:textColor="@color/black"
+            android:background="@drawable/fondo_titulo"
             android:hint="Escribe un mensaje..."
             android:padding="10dp" />
 
@@ -105,7 +109,7 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:columnCount="1"
         android:rowCount="2">
 

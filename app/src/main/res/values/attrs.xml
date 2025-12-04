@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Atributos para tema claro -->
+    <attr name="colorTitulo" format="color" />
+    <attr name="colorNormal" format="color" />
+    <attr name="colorBoton" format="color" />
+    <attr name="colorBotonTexto" format="color" />
+    <attr name="colorFondoTexto" format="color" />
+
+    <!-- Atributos para tema oscuro -->
+    <attr name="colorTituloOS" format="color" />
+    <attr name="colorNormalOS" format="color" />
+    <attr name="colorBotonOS" format="color" />
+    <attr name="colorBotonTextoOS" format="color" />
+    <attr name="colorFondoTextoOS" format="color" />
+
+</resources>

@@ -15,11 +15,13 @@
 
         <!-- Título -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/personalizar"
             android:textSize="40sp"
-            android:textColor="@color/white"
+            android:background="@drawable/fondo_titulo"
+            android:layout_gravity="center"
+            android:textColor="?attr/colorTitulo"
             android:textStyle="bold"
             android:textAlignment="center"
             android:fontFamily="@font/luckiestguy_regular"

@@ -9,13 +9,15 @@
     tools:context=".PaginaJuego">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginTop="25dp"
         android:text="@string/titulo"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:textColor="?attr/colorTitulo"
         android:textSize="50sp"
+        android:background="@drawable/fondo_titulo"
         android:fontFamily="@font/luckiestguy_regular"
         android:textStyle="bold" />
 
@@ -66,7 +68,8 @@
                 android:layout_height="wrap_content"
                 android:text="Nombre1"
                 android:textSize="20sp"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorTitulo"
+                android:background="@drawable/fondo_titulo"
                 android:textStyle="bold"
                 android:layout_marginTop="5dp"
                 android:textAlignment="center" />
@@ -95,7 +98,8 @@
                 android:layout_height="wrap_content"
                 android:text="Nombre2"
                 android:textSize="20sp"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorTitulo"
+                android:background="@drawable/fondo_titulo"
                 android:textStyle="bold"
                 android:layout_marginTop="5dp"
                 android:textAlignment="center" />
@@ -105,7 +109,7 @@
     <TextView
         android:id="@+id/textoNivel"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:text="Nivel ..."
         android:textSize="30sp"
         android:layout_marginHorizontal="100dp"

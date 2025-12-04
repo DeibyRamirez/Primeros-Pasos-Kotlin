@@ -17,13 +17,14 @@
 
         <!-- Título -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/luckiestguy_regular"
             android:text="@string/titulo"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorTitulo"
             android:textSize="40sp"
+            android:background="@drawable/fondo_titulo"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"/>
 

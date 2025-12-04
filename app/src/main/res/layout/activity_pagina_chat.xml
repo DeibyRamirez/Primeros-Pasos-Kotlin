@@ -12,13 +12,15 @@
 
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="@font/luckiestguy_regular"
         android:text="@string/titulo"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:background="@drawable/fondo_titulo"
+        android:layout_gravity="center"
+        android:textColor="?attr/colorTitulo"
         android:textSize="50sp" />
 
 
@@ -39,7 +41,8 @@
             android:text="nombre de usuario"
             android:textStyle="bold"
             android:fontFamily="@font/luckiestguy_regular"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorTitulo"
+            android:background="@drawable/fondo_titulo"
             android:textSize="24sp" />
 
         <ImageButton
@@ -55,8 +58,7 @@
     <!-- CHAT CON SCROLL -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="400dp"
         android:layout_margin="15dp"
         android:background="@drawable/chat_background"
         android:padding="10dp">
@@ -82,8 +84,9 @@
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_white"
+            android:background="@drawable/fondo_titulo"
             android:hint="Escribe un mensaje..."
+            android:textColor="@color/black"
             android:padding="10dp" />
 
         <Space

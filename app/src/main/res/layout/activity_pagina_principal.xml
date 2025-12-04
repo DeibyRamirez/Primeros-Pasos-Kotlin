@@ -29,7 +29,8 @@
                 android:text="nombre de usuario"
                 android:textStyle="bold"
                 android:fontFamily="@font/luckiestguy_regular"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorTitulo"
+                android:background="@drawable/fondo_titulo"
                 android:textSize="24sp" />
 
             <ImageButton
@@ -44,23 +45,26 @@
 
         <!-- Título principal -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:fontFamily="@font/luckiestguy_regular"
             android:text="@string/titulo"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:background="@drawable/fondo_titulo"
+            android:textColor="?attr/colorTitulo"
             android:textSize="50sp" />
 
         <!-- Partidas -->
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/luckiestguy_regular"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorTitulo"
             android:textSize="20sp"
-            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/fondo_titulo"
             android:text="Partidas disponibles" />
 
         <LinearLayout
@@ -83,8 +87,8 @@
         <!-- Botones Crear / Unirse -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="280dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <Button

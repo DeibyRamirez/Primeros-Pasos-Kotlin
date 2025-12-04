@@ -1,0 +1,7 @@
+<resources>
+    <color name="textoTitulo">#FFFFFF</color>
+    <color name="textoNormal">#FFFFFF</color>
+    <color name="botonFondo">#7C4DFF</color>
+    <color name="botonTexto">#FFFFFF</color>
+    <color name="fondoTexto">#AA000000</color>
+</resources>

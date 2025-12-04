@@ -17,11 +17,12 @@
 
         <!-- Título PERFIL -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/perfil"
             android:textSize="50sp"
-            android:textColor="@color/white"
+            android:background="@drawable/fondo_titulo"
+            android:textColor="?attr/colorTitulo"
             android:textAlignment="center"
             android:fontFamily="@font/luckiestguy_regular"
             android:layout_marginTop="30dp" />
@@ -62,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombre de Usuario"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorTitulo"
                     android:textColorHint="@color/black"
                     android:fontFamily="@font/luckiestguy_regular"
                     android:textSize="20sp"/>
@@ -86,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Correo"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorTitulo"
                     android:fontFamily="@font/luckiestguy_regular"
                     android:textColorHint="@color/black"
                     android:textSize="20sp"/>
@@ -111,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Contraseña"
                     android:inputType="textPassword"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorTitulo"
                     android:fontFamily="@font/luckiestguy_regular"
                     android:textColorHint="@color/black"
                     android:textSize="20sp"/>

@@ -9,4 +9,18 @@
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#EAFF00</color>
     <color name="gray">#FFB3B3B3</color>
+
+    <color name="textoTitulo">#000000</color> <!-- negro -->
+    <color name="textoNormal">#000000</color>
+    <color name="botonFondo">#B388FF</color> <!-- púrpura suave para tema claro -->
+    <color name="botonTexto">#FFFFFF</color>
+    <color name="fondoTexto">#AAFFFFFF</color> <!-- blanco con 66% opacidad -->
+
+
+    <!-- Colores para el tema oscuro -->
+    <color name="textoTituloOS">#FFFFFF</color> <!-- blanco -->
+    <color name="textoNormalOS">#FFFFFF</color>
+    <color name="botonFondoOS">#7C4DFF</color> <!-- púrpura más fuerte para tema oscuro -->
+    <color name="botonTextoOS">#FFFFFF</color>
+    <color name="fondoTextoOS">#AA000000</color> <!-- negro opaco para legibilidad -->
 </resources>
