@@ -29,6 +29,8 @@
     <string name="Chat_Global">Chat Global</string>
     <string name="Chatear">Chatear</string>
     <string name="partida"> Jugar Partida</string>
+    <string name="continuar"> Continuar</string>
+    <string name="anuncio"> Mirar Anuncio</string>
     <string name="instrucciones">
     El desafío consta de 3 niveles progresivos.\n\n
     Tu misión es completar un 3 en raya en cada uno para superar el reto.\n\n

@@ -18,6 +18,10 @@ import com.example.myapplication.desafio.ControladorDesafio
 import com.example.myapplication.desafio.MotorIA
 import com.example.myapplication.desafio.Temporizador
 import com.example.myapplication.repos.UserRepository
+import com.example.myapplication.repos.adsrepo.AdsManager
+import com.example.myapplication.repos.adsrepo.InterstitialAds
+import com.example.myapplication.repos.adsrepo.RewardeAds
+import com.google.android.gms.ads.AdRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.coroutines.launch
@@ -68,6 +72,12 @@ class PaginaJuego : BaseActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_pagina_juego)
 
+        // Cargar Banner
+        val banner = findViewById<com.google.android.gms.ads.AdView>(R.id.adViewBanner)
+        val request = AdRequest.Builder().build()
+        banner.loadAd(request)
+
+
         // Inicializar preferencias
         prefs = UserPrefs(this)
 
@@ -101,6 +111,8 @@ class PaginaJuego : BaseActivity() {
         val botonVolver = findViewById<Button>(R.id.botonVolver)
 
         val yoSoy = intent.getStringExtra("yoSoy") ?: "x"
+
+
 
 
         // Configurar según el modo de juego
@@ -197,6 +209,7 @@ class PaginaJuego : BaseActivity() {
             intent.putExtra("id_usuario", FirebaseAuth.getInstance().currentUser!!.uid)
             startActivity(intent)
             finish()
+            InterstitialAds.show(this)
         }
 
         botonReiniciar.setOnClickListener {
@@ -228,10 +241,15 @@ class PaginaJuego : BaseActivity() {
 
         controladorDesafio.configurarNivel()
         inicializarTableroDesafio(controladorDesafio.tableroTamano)
+        // 🔥 HACER QUE LA IA JUEGUE PRIMERO
+        moverIA()
+
 
         textoNivel.text = "Nivel ${controladorDesafio.nivelActual}"
 
         iniciarTemporizador()
+        // Configurar botones del tablero para modo online
+        configurarBotonesTableroDesafio()
 
     }
 
@@ -344,9 +362,27 @@ class PaginaJuego : BaseActivity() {
 
         Toast.makeText(this, "¡Ganaste el nivel!", Toast.LENGTH_LONG).show()
 
+        // Avanzar nivel
         controladorDesafio.avanzaNivel()
+
+        val idUsuario = intent.getStringExtra("id_usuario") ?: return
+
+        // ¿Es el último nivel?
+        if (controladorDesafio.esUltimoNivel()) {
+            // Ir a pantalla final que da monedas
+            val intent = Intent(this, PaginaDesafioGanado::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("id_usuario", idUsuario)
+            startActivity(intent)
+            finish()
+            return
+        }
+
+        // Si NO es el último nivel, continuar normalmente
         configurarModoDesafio()
     }
+
+
 
     private fun perderJugadorDesafio() {
         juegoTerminado = true

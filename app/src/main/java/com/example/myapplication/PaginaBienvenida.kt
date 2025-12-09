@@ -7,12 +7,18 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.modelos.Usuario
 import com.example.myapplication.repos.UserRepository
+import com.example.myapplication.repos.adsrepo.AdsManager
+import com.example.myapplication.repos.adsrepo.CoinsRepo
+import com.example.myapplication.repos.adsrepo.InterstitialAds
+import com.example.myapplication.repos.adsrepo.RewardeAds
+import com.google.android.gms.ads.AdRequest
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -32,6 +38,21 @@ class PaginaBienvenida : BaseActivity() {
         var modo: String? = null
         val idUsuario = intent.getStringExtra("id_usuario") ?: return
         val botonEnviar = findViewById<ImageButton>(R.id.btnEnviar)
+
+        // Inicializar AdMod
+        AdsManager.init(this)
+
+        // Cargar Interstitial
+        InterstitialAds.loadAd(this)
+
+        // Cargar Rewarde
+        RewardeAds.loadAd(this)
+
+        // Cargar Banner
+        val banner = findViewById<com.google.android.gms.ads.AdView>(R.id.adViewBanner)
+        val request = AdRequest.Builder().build()
+        banner.loadAd(request)
+
 
         // Uso el repo para cargar los datos del usuario con UserRepository.kt
         val repo = UserRepository()
@@ -64,7 +85,15 @@ class PaginaBienvenida : BaseActivity() {
         }
 
         botonEnviar.setOnClickListener {
-            enviarMensajeGlobal()
+            CoinsRepo.subtractCoins(idUsuario,25) { ok, msg ->
+                if (ok) {
+                    enviarMensajeGlobal()
+                } else {
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show() // Muestra el mensaje de toast
+                }
+            }
+
+
         }
 
     }

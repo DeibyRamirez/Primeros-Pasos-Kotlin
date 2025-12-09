@@ -6,9 +6,11 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import com.example.myapplication.modelos.Usuario
 import com.example.myapplication.repos.UserRepository
+import com.example.myapplication.repos.adsrepo.CoinsRepo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -67,7 +69,13 @@ class PaginaChat : BaseActivity() {
 
         // Enviar mensaje
         botonEnviar.setOnClickListener {
-            enviarMensaje()
+            CoinsRepo.subtractCoins( uidUsuario,50) { ok, msg ->
+                if (ok) {
+                    enviarMensaje()
+                } else {
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

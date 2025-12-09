@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.modelos.Usuario
 import com.example.myapplication.repos.UserRepository
 import com.example.myapplication.repos.UsuariosAdapter
+import com.example.myapplication.repos.adsrepo.AdsManager
+import com.example.myapplication.repos.adsrepo.InterstitialAds
+import com.example.myapplication.repos.adsrepo.RewardeAds
+import com.google.android.gms.ads.AdRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,14 +34,18 @@ class PaginaUsuarios : BaseActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_pagina_usuarios)
 
+        // Cargar Banner
+        val banner = findViewById<com.google.android.gms.ads.AdView>(R.id.adViewBanner)
+        val request = AdRequest.Builder().build()
+        banner.loadAd(request)
+
         var botonPerfil = findViewById<ImageButton>(R.id.btnPerfil)
         var nombreUsuario = findViewById<TextView>(R.id.txtNombreUsuario)
 
+        // Obtener el ID del usuario actual
+        val idU  = intent.getStringExtra("uid_usuario").toString()
 
-        // UID real del usuario actual
-        val idUsuario = FirebaseAuth.getInstance().currentUser!!.uid
-
-        UserRepository.miId = idUsuario
+        UserRepository.miId = idU
 
         listaUsuarios = findViewById(R.id.listaUsuarios)
         // Esta linea le dice al recyclerView como se va a mostrar los datos y donde.
@@ -57,7 +65,7 @@ class PaginaUsuarios : BaseActivity() {
 
         val repo = UserRepository()
         // Funcion para cargar los datos del usurio (nombre e imagen de perfil)
-        repo.cargarDatosUsuario(idUsuario) { datos ->
+        repo.cargarDatosUsuario(idU) { datos ->
             if (datos != null) {
                 datosUsuario = datos
                 nombreUsuario.text = datos.nombre
@@ -70,7 +78,7 @@ class PaginaUsuarios : BaseActivity() {
         botonPerfil.setOnClickListener {
             datosUsuario?.let { usuario ->
                 val intent = Intent(this, Perfil::class.java)
-                intent.putExtra("uid_usuario", usuario.id)
+                intent.putExtra("uid_usuario", idU)
                 startActivity(intent)
             }
         }

@@ -7,7 +7,8 @@ data class Usuario (
     var correo: String? = null,
     var contraseña: String? = null,
     var avatar: String? = null,
-    var enLinea: Boolean = false
+    var enLinea: Boolean = false,
+    var monedas: Int = 0
 
 )
 

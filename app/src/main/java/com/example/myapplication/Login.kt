@@ -70,6 +70,8 @@ class Login : BaseActivity() {
                             val intent = Intent(this@Login, PaginaBienvenida::class.java)
 
                             intent.putExtra("id_usuario", childSnapshot.key)  // 👈 Guardamos el ID
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                             return
                         }
@@ -93,4 +95,6 @@ class Login : BaseActivity() {
 
 
     }
+
+
 }

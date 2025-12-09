@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/textoTurno"
-        android:layout_width="wrap_content"
+        android:layout_width="400dp"
         android:layout_height="63dp"
         android:layout_gravity="center"
         android:layout_marginHorizontal="100dp"
@@ -257,5 +257,13 @@
         android:fontFamily="@font/luckiestguy_regular"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/teal_200"/>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
 </LinearLayout>

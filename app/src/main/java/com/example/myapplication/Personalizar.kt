@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.repos.adsrepo.InterstitialAds
+import com.example.myapplication.repos.adsrepo.RewardeAds
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
@@ -158,8 +160,10 @@ class Personalizar : BaseActivity() {
                 prefs.guardarSkinO(rutaSkinO)
                 prefs.guardarFondo(fondoSeleccionado)
 
-                Toast.makeText(this@Personalizar, "Preferencias guardadas", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@Personalizar, "Preferencias guardadas", Toast.LENGTH_SHORT)
+                    .show()
             }
+            InterstitialAds.show(this)
         }
     }
 

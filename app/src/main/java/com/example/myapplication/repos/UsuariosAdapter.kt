@@ -29,7 +29,7 @@ class UsuariosAdapter(
 
     // Aqui definimos los datos que queremos mostrar en el recyclerView.
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imgPerfil = view.findViewById<ImageButton>(R.id.imgPerfil)
+        val imgPerfil = view.findViewById<ImageView>(R.id.imgPerfil)
         val txtNombre = view.findViewById<TextView>(R.id.txtNombreJ)
         val txtEstado = view.findViewById<TextView>(R.id.txtEstado)
         val btnChat = view.findViewById<MaterialButton>(R.id.btnChatear)

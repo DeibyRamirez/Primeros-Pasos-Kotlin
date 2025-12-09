@@ -7,6 +7,8 @@ class ControladorDesafio {
     var tiempoRestante = 20
     var tableroTamano = 3
     var probabilidadIA = 100
+    var nivelMaximo = 4
+
 
     fun configurarNivel(){
         when (nivelActual){
@@ -52,4 +54,8 @@ class ControladorDesafio {
         configurarNivel()
 
     }
+    fun esUltimoNivel(): Boolean {
+        return nivelActual >= nivelMaximo
+    }
+
 }

@@ -13,9 +13,15 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".PaginaRecargar"
+            android:exported="false" />
+        <activity
+            android:name=".PaginaDesafioGanado"
+            android:exported="false" />
+        <activity
             android:name=".PaginaChat"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".PaginaUsuarios"
             android:exported="false" />
@@ -25,7 +31,7 @@
         <activity
             android:name=".Perfil"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Personalizar"
             android:exported="false" />
@@ -41,7 +47,7 @@
         <activity
             android:name=".Registro"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".clasePractica"
             android:exported="false" />
@@ -58,13 +64,15 @@
         <activity
             android:name=".PaginaJuego"
             android:exported="false" />
-
         <activity
             android:name=".MyApp"
             android:exported="false" />
         <activity
             android:name=".Logica_Basica_Kotlin"
-            android:exported="false" />
+            android:exported="false" /> <!-- Sample AdMob -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1195123066634718~2478718430" />
     </application>
 
 </manifest>

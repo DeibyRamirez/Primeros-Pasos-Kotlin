@@ -1,17 +1,18 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.modelos.Usuario
 import com.example.myapplication.repos.UserRepository
+import com.example.myapplication.repos.adsrepo.CoinsRepo
+import com.example.myapplication.repos.adsrepo.RewardeAds
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class Perfil : BaseActivity() {
@@ -23,23 +24,22 @@ class Perfil : BaseActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_perfil)
 
-        /*val id = intent.getStringExtra("id")
-        val nombre = intent.getStringExtra("nombre")
-        val correo = intent.getStringExtra("correo")
-        val contraseña = intent.getStringExtra("contraseña")
-        val avatar = intent.getStringExtra("avatar")*/
-
         val botonPerfil = findViewById<ImageView>(R.id.btnPerfil)
         val botonguardar = findViewById<Button>(R.id.botonGuardar)
         val txtNombre = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.textNombreUsuario)
         val txtCorreo = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.textCorreo)
         val txtContraseña = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.textContraseña)
+        val botonRecargar = findViewById<Button>(R.id.botonRecargar)
+        val botonAnuncio = findViewById<Button>(R.id.botonAnuncio)
+        val txtMonedas = findViewById<TextView>(R.id.txtMonedas)
+        val txtAnuncio = findViewById<TextView>(R.id.txtAnuncio)
+        val botonCerrarPerfil = findViewById<Button>(R.id.botonCerrarPerfil)
 
 
-        val uidUsuario = intent.getStringExtra("uid_usuario").toString()
+        val uidUsuario  = intent.getStringExtra("uid_usuario").toString()
         val repo = UserRepository()
 
-        // Funcion para cargar los datos del usurio (nombre e imagen de perfil)
+        // 🔥 1. Cargar datos del perfil
         repo.cargarDatosUsuario(uidUsuario) { datos ->
             if (datos != null) {
                 datosUsuario = datos
@@ -47,16 +47,13 @@ class Perfil : BaseActivity() {
                 txtNombre.setText(datos.nombre)
                 txtCorreo.setText(datos.correo)
                 txtContraseña.setText(datos.contraseña)
+                txtMonedas.setText(datos.monedas.toString())
 
-                // 🔥 Cargar avatar desde su nombre
                 val idImg = resources.getIdentifier(datos.avatar, "drawable", packageName)
                 botonPerfil.setImageResource(idImg)
-
-
             }
         }
 
-        // Actualizar los datos en la base de datos Firebase
         botonguardar.setOnClickListener {
             actualizarDatosUsuario(
                 uidUsuario.toString(),
@@ -66,18 +63,42 @@ class Perfil : BaseActivity() {
                 datosUsuario?.avatar.toString()
             )
         }
+
+        botonAnuncio.setOnClickListener {
+            RewardeAds.show(this) { rewardAmount ->
+                CoinsRepo.addCoins(uidUsuario,25)
+            }
+        }
+
+        botonCerrarPerfil.setOnClickListener {
+            cerrarSesion(uidUsuario)
+        }
+
+        botonRecargar.setOnClickListener {
+            val intent = Intent(this, PaginaRecargar::class.java)
+            intent.putExtra("id_usuario", uidUsuario)
+            startActivity(intent)
+        }
     }
 
     private fun actualizarDatosUsuario(
         id: String,
-        nombre : String,
-        correo : String,
-        contraseña : String,
-        avatar : String
+        nombre: String,
+        correo: String,
+        contraseña: String,
+        avatar: String
     ) {
         val database = FirebaseDatabase.getInstance().getReference("usuarios").child(id)
 
-        val usuario = Usuario(id, nombre, correo, contraseña, avatar)
+        val usuario = Usuario(
+            id = id,
+            nombre = nombre,
+            correo = correo,
+            contraseña = contraseña,
+            avatar = avatar,
+            enLinea = datosUsuario?.enLinea ?: false,
+            monedas = datosUsuario?.monedas ?: 0 // 🔥 MANTENER LAS MONEDAS
+        )
 
         database.setValue(usuario)
             .addOnSuccessListener {
@@ -86,6 +107,22 @@ class Perfil : BaseActivity() {
             .addOnFailureListener {
                 Toast.makeText(this, "Error al actualizar los datos", Toast.LENGTH_SHORT).show()
             }
-
     }
+
+    private fun cerrarSesion(uid: String) {
+
+        // 🔥 marcar offline
+        FirebaseDatabase.getInstance()
+            .getReference("usuarios/$uid/enLinea")
+            .setValue(false)
+
+        // 🚀 ir a Login SIN POSIBILIDAD DE VOLVER ATRÁS
+        val intent = Intent(this, Login::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+
+
 }

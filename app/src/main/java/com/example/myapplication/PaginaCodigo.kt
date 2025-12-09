@@ -11,6 +11,10 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.repos.UserRepository
+import com.example.myapplication.repos.adsrepo.AdsManager
+import com.example.myapplication.repos.adsrepo.InterstitialAds
+import com.example.myapplication.repos.adsrepo.RewardeAds
+import com.google.android.gms.ads.AdRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.database.DatabaseReference
@@ -25,6 +29,11 @@ class PaginaCodigo : BaseActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_pagina_codigo)
+
+        // Cargar Banner
+        val banner = findViewById<com.google.android.gms.ads.AdView>(R.id.adViewBanner)
+        val request = AdRequest.Builder().build()
+        banner.loadAd(request)
 
         //Inicializar Crashlytics
         crashlytics = FirebaseCrashlytics.getInstance()

@@ -16,6 +16,10 @@ class MotorIA {
         return jugadaInteligente(tablero)
     }
 
+    val ControladorDesafio = ControladorDesafio()
+
+
+
     /**
      * IA INTELIGENTE - Usa estrategia real de Tres en Raya
      * Prioridades:
@@ -26,7 +30,7 @@ class MotorIA {
      * 5. Jugar en el centro (estratégicamente mejor)
      * 6. Jugar aleatoriamente
      */
-    private fun jugadaInteligente(tablero: Array<Array<String?>>): Pair<Int, Int>? {
+    private fun jugadaInteligente(tablero: Array<Array<String?>>, nivel: Int = 1): Pair<Int, Int>? {
 
         // 🎯 PRIORIDAD 1: Ganar si puede (buscar completar 3 en raya propio)
         buscarGanar(tablero, "O")?.let { return it }
@@ -41,7 +45,7 @@ class MotorIA {
         buscarCrearAmenaza(tablero, "X")?.let { return it }
 
         // 🎲 PRIORIDAD 5: Jugar en posición estratégica (centro o esquinas)
-        buscarPosicionEstrategica(tablero)?.let { return it }
+        buscarPosicionEstrategica(tablero, nivel = ControladorDesafio.nivelActual)?.let { return it }
 
         // 🎲 ÚLTIMA OPCIÓN: Jugar aleatoriamente
         return jugadaAleatoria(tablero)
@@ -204,12 +208,13 @@ class MotorIA {
     /**
      * Busca posiciones estratégicas (centro > esquinas > bordes)
      */
-    private fun buscarPosicionEstrategica(tablero: Array<Array<String?>>): Pair<Int, Int>? {
+    private fun buscarPosicionEstrategica(tablero: Array<Array<String?>>, nivel: Int): Pair<Int, Int>? {
         val tamano = tablero.size
         val centro = tamano / 2
+        val nivelInterno = nivel
 
         // 1️⃣ Intentar jugar en el centro
-        if (tablero[centro][centro] == null) {
+        if (tablero[centro][centro] == null && nivelInterno != 1) {
             return centro to centro
         }
 

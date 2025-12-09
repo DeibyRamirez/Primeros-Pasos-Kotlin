@@ -16,7 +16,7 @@
         android:padding="12dp">
 
         <!-- FOTO DE PERFIL -->
-        <ImageButton
+        <ImageView
             android:id="@+id/imgPerfil"
             android:layout_width="55dp"
             android:layout_height="55dp"

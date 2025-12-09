@@ -70,4 +70,7 @@ dependencies {
 
     // Autenticacion
     implementation("com.google.firebase:firebase-auth-ktx")
+
+    // Anuncios
+    implementation("com.google.android.gms:play-services-ads:24.8.0")
 }
