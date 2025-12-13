@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
+
     tools:context=".Perfil">
 
     <LinearLayout
@@ -15,16 +16,16 @@
         android:padding="20dp"
         android:gravity="center_horizontal">
 
-        <!-- Título PERFIL -->
+        <!-- Título PERFIL con Glass -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/perfil"
             android:textSize="50sp"
-            android:background="@drawable/fondo_titulo"
-            android:textColor="?attr/colorTitulo"
+            android:textColor="@color/white"
             android:textAlignment="center"
-            android:fontFamily="@font/luckiestguy_regular"
+            android:fontFamily="@font/metal_glass"
+            android:padding="10dp"
             android:layout_marginTop="10dp" />
 
         <!-- Avatar circular -->
@@ -32,30 +33,31 @@
             android:id="@+id/btnPerfil"
             android:layout_width="170dp"
             android:layout_height="170dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/ic_c"
             android:scaleType="centerCrop"
             android:background="@drawable/circle_white"
             android:padding="8dp"/>
 
+        <!-- Monedas con fondo Glass -->
         <TextView
             android:id="@+id/txtMonedas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Monedas"
             android:textSize="25sp"
-            android:background="@drawable/fondo_titulo"
-            android:textColor="?attr/colorTitulo"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:fontFamily="@font/luckiestguy_regular"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="15dp" />
 
-        <!-- Card contenedora del formulario -->
+        <!-- Contenedor del formulario con Glass -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="25dp"
+            android:background="@drawable/fondo_glass"
             android:layout_marginTop="20dp"
             android:elevation="8dp">
 
@@ -63,75 +65,70 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxBackgroundMode="filled"
-                app:boxCornerRadiusTopStart="15dp"
-                app:boxCornerRadiusTopEnd="15dp"
-                app:boxCornerRadiusBottomStart="15dp"
-                app:boxCornerRadiusBottomEnd="15dp"
-                app:boxBackgroundColor="@color/white">
+                android:hint="Nombre de Usuario"
+                android:textColorHint="@color/white"
+                android:backgroundTint="@color/white"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidth="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginTop="12dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textNombreUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre de Usuario"
-                    android:textColor="?attr/colorTitulo"
-                    android:textColorHint="@color/black"
-                    android:background="@drawable/fondo_titulo"
-                    android:fontFamily="@font/luckiestguy_regular"
-                    android:textSize="20sp"/>
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:inputType="textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+
 
             <!-- Correo -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                app:boxBackgroundMode="filled"
-                app:boxCornerRadiusTopStart="15dp"
-                app:boxCornerRadiusTopEnd="15dp"
-                app:boxCornerRadiusBottomStart="15dp"
-                app:boxCornerRadiusBottomEnd="15dp"
-                app:boxBackgroundColor="@color/white">
+                android:hint="Correo"
+                android:textColorHint="@color/white"
+                android:backgroundTint="@color/white"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidth="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginTop="12dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textCorreo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Correo"
-                    android:inputType="textEmailAddress"
-                    android:textColor="?attr/colorTitulo"
-                    android:background="@drawable/fondo_titulo"
-                    android:fontFamily="@font/luckiestguy_regular"
-                    android:textColorHint="@color/black"
-                    android:textSize="20sp"/>
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+
 
             <!-- Contraseña -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:hint="Contraseña"
+                android:textColorHint="@color/white"
+                android:backgroundTint="@color/white"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidth="2dp"
                 app:passwordToggleEnabled="true"
-                app:boxBackgroundMode="filled"
-                app:boxCornerRadiusTopStart="15dp"
-                app:boxCornerRadiusTopEnd="15dp"
-                app:boxCornerRadiusBottomStart="15dp"
-                app:boxCornerRadiusBottomEnd="15dp"
-                app:boxBackgroundColor="@color/white">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginTop="12dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textContraseña"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Contraseña"
-                    android:inputType="textPassword"
-                    android:textColor="?attr/colorTitulo"
-                    android:background="@drawable/fondo_titulo"
-                    android:fontFamily="@font/luckiestguy_regular"
-                    android:textColorHint="@color/black"
-                    android:textSize="20sp"/>
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <!-- Botón Guardar -->
             <Button
@@ -140,6 +137,7 @@
                 android:layout_marginTop="35dp"
                 android:text="@string/guardar" />
 
+
             <!-- Botón Recargar -->
             <Button
                 android:id="@+id/botonRecargar"
@@ -147,7 +145,8 @@
                 android:layout_marginTop="35dp"
                 android:text="@string/recargar" />
 
-            <!-- Texto -->
+        </LinearLayout>
+            <!-- Texto con Glass -->
             <TextView
                 android:id="@+id/txtAnuncio"
                 android:layout_width="wrap_content"
@@ -155,8 +154,8 @@
                 android:layout_marginTop="20dp"
                 android:text="Mira un video y obten una recompensa"
                 android:textSize="20sp"
-                android:background="@drawable/fondo_titulo"
-                android:textColor="?attr/colorTitulo"
+                android:background="@drawable/fondo_glass"
+                android:textColor="@color/white"
                 android:textAlignment="center"
                 android:fontFamily="@font/luckiestguy_regular"/>
 
@@ -167,14 +166,14 @@
                 android:layout_marginTop="35dp"
                 android:text="@string/anuncio" />
 
-            <!-- Botón Anuncio -->
+            <!-- Botón Cerrar Sesión -->
             <Button
                 android:id="@+id/botonCerrarPerfil"
                 style="@style/Botones"
                 android:layout_marginTop="35dp"
                 android:text="Cerrar Sesión" />
 
-        </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>

@@ -9,64 +9,86 @@
 
     tools:context=".PaginaJuegoIA">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/titulo"
-        android:textAlignment="center"
-        android:textColor="?attr/colorTitulo"
-        android:layout_gravity="center"
-        android:background="@drawable/fondo_titulo"
-        android:textSize="50sp"
-        android:fontFamily="@font/luckiestguy_regular"
-        android:textStyle="bold" />
-
     <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="400dp"
-        android:background="@color/white"
-        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="50dp">
+        android:padding="20dp"
+        android:gravity="center_horizontal">
 
-
-        <!-- Instrucciones adicionales -->
         <TextView
-            android:id="@+id/textoInstrucciones"
             android:layout_width="wrap_content"
-            android:layout_height="390dp"
-            android:text="@string/instrucciones"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@string/titulo"
+            android:textAlignment="center"
+            android:textColor="@color/white"
             android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:inputType="textMultiLine"
-            android:singleLine="false"
-            android:lineSpacingExtra="4dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:layout_marginTop="20dp"
-            android:padding="20dp"
-            android:visibility="visible" />
+            android:textSize="50sp"
+            android:fontFamily="@font/metal_glass"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/fondo_glass">
+
+
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="400dp"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+
+
+                <!-- Instrucciones adicionales -->
+                <TextView
+                    android:id="@+id/textoInstrucciones"
+                    android:layout_width="wrap_content"
+                    android:layout_height="390dp"
+                    android:text="@string/instrucciones"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:inputType="textMultiLine"
+                    android:singleLine="false"
+                    android:lineSpacingExtra="4dp"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/luckiestguy_regular"
+                    android:layout_marginTop="20dp"
+                    android:padding="20dp"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <Button
+                android:id="@+id/botonaceptar"
+                android:layout_width="180dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:text="Aceptar Desafio"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/luckiestguy_regular"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/teal_200"/>
+        </LinearLayout>
+
 
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp"/>
 
-    <Button
-        android:id="@+id/botonaceptar"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:text="Aceptar Desafio"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:textColor="@color/white"
-        android:fontFamily="@font/luckiestguy_regular"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/teal_200"/>
 
 </LinearLayout>

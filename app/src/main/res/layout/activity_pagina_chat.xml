@@ -6,44 +6,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fillViewport="true"
+    android:padding="20dp"
     android:fitsSystemWindows="true"
     tools:context=".PaginaChat">
 
-
+    <!-- TÍTULO PRINCIPAL -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/luckiestguy_regular"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/metal_glass"
         android:text="@string/titulo"
         android:textAlignment="center"
-        android:background="@drawable/fondo_titulo"
-        android:layout_gravity="center"
-        android:textColor="?attr/colorTitulo"
-        android:textSize="50sp" />
+        android:textColor="@color/white"
+        android:textSize="48sp"
+        android:layout_gravity="center_horizontal"/>
 
-
-
-    <!-- Header -->
+    <!-- HEADER -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_margin="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/fondo_glass"
+        android:padding="15dp"
+        android:layout_marginTop="20dp"
+        android:elevation="8dp"
+        android:clipToOutline="true">
 
         <TextView
             android:id="@+id/txtNombreUsuario"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="nombre de usuario"
+            android:text="Nombre de usuario"
             android:textStyle="bold"
             android:fontFamily="@font/luckiestguy_regular"
-            android:textColor="?attr/colorTitulo"
-            android:background="@drawable/fondo_titulo"
-            android:textSize="24sp" />
+            android:textColor="@color/white"
+            android:textSize="22sp"/>
 
         <ImageButton
             android:id="@+id/btnPerfil"
@@ -55,39 +55,51 @@
             android:scaleType="centerInside" />
     </LinearLayout>
 
-    <!-- CHAT CON SCROLL -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_margin="15dp"
-        android:background="@drawable/chat_background"
-        android:padding="10dp">
-
-        <LinearLayout
-            android:id="@+id/contenedorChat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-
-    </ScrollView>
-
-    <!-- Input y botón -->
+    <!-- ÁREA DE CHAT (flexible) -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@drawable/fondo_glass"
+        android:padding="12dp"
+        android:elevation="8dp"
+        android:clipToOutline="true"
+        android:layout_marginTop="20dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/contenedorChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- INPUT + BOTÓN -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="10dp">
+        android:layout_marginTop="10dp">
 
         <EditText
             android:id="@+id/edtMensaje"
             android:layout_width="0dp"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
+            android:minHeight="45dp"
             android:layout_weight="1"
-            android:background="@drawable/fondo_titulo"
+            android:background="@drawable/fondo_glass"
             android:hint="Escribe un mensaje..."
-            android:textColor="@color/black"
-            android:padding="10dp" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:padding="10dp"/>
 
         <Space
             android:layout_width="10dp"
@@ -103,19 +115,22 @@
             android:src="@drawable/enviar" />
     </LinearLayout>
 
-
-    <GridLayout
+    <!-- BOTÓN CREAR PARTIDA -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="10dp"
-        android:columnCount="1"
-        android:rowCount="2">
+        android:layout_height="wrap_content"
+        android:background="@drawable/fondo_glass"
+        android:padding="5dp"
+        android:elevation="8dp"
+        android:clipToOutline="true"
+        android:layout_marginTop="10dp">
 
         <Button
             android:id="@+id/botonCrearPartida"
             style="@style/Botones"
-            android:text="@string/partida" />
-
-    </GridLayout>
+            android:text="@string/partida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </LinearLayout>

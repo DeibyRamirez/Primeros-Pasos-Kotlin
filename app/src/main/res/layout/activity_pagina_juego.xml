@@ -1,269 +1,326 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     tools:context=".PaginaJuego">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/titulo"
-        android:textAlignment="center"
-        android:layout_gravity="center"
-        android:textColor="?attr/colorTitulo"
-        android:textSize="50sp"
-        android:background="@drawable/fondo_titulo"
-        android:fontFamily="@font/luckiestguy_regular"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textoTurno"
-        android:layout_width="400dp"
-        android:layout_height="63dp"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="100dp"
-
-        android:fontFamily="@font/nabla_regular_variablefont_edpt_ehlt"
-        android:paddingBottom="16dp"
-        android:text="Turno de X"
-        android:textAlignment="center"
-        android:textColor="@color/yellow"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <!-- AVATARES Y NOMBRES (MEJORADO) -->
     <LinearLayout
-        android:id="@+id/containerUsuarios"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="10dp">
-
-        <!-- COLUMNA JUGADOR 1 -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/avatarPerfilJ1"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@drawable/circle_white"
-                android:src="@drawable/ic_c"
-                android:padding="6dp"
-                android:scaleType="centerInside" />
-
-            <TextView
-                android:id="@+id/nombreJ1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre1"
-                android:textSize="20sp"
-                android:textColor="?attr/colorTitulo"
-                android:background="@drawable/fondo_titulo"
-                android:textStyle="bold"
-                android:layout_marginTop="5dp"
-                android:textAlignment="center" />
-        </LinearLayout>
-
-        <!-- COLUMNA JUGADOR 2 -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/avatarPerfilJ2"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@drawable/circle_white"
-                android:src="@drawable/ic_c"
-                android:padding="6dp"
-                android:scaleType="centerInside" />
-
-            <TextView
-                android:id="@+id/nombreJ2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre2"
-                android:textSize="20sp"
-                android:textColor="?attr/colorTitulo"
-                android:background="@drawable/fondo_titulo"
-                android:textStyle="bold"
-                android:layout_marginTop="5dp"
-                android:textAlignment="center" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textoNivel"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Nivel ..."
-        android:textSize="30sp"
-        android:layout_marginHorizontal="100dp"
-        android:textStyle="bold"
-        android:paddingBottom="16dp"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textColor="@color/yellow"
-        android:fontFamily="@font/nabla_regular_variablefont_edpt_ehlt" />
-
-
-    <!-- Cuadricula 3x3  -->
-    <GridLayout
-        android:id="@+id/grid"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:columnCount="3"
-        android:rowCount="3"
-        android:layout_margin="2dp"
-        android:padding="20dp">
-
-        <!-- 9 ImageButtons (una celda cada uno) -->
-        <ImageButton
-            android:id="@+id/button0"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="2dp"
-            android:background="@drawable/green_button"
-            android:scaleType="centerInside"
-            android:contentDescription="Botón 0" />
-
-        <ImageButton
-            android:id="@+id/button1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="2dp"
-            android:background="@drawable/green_button"
-            android:scaleType="centerInside"
-            android:contentDescription="Botón 1" />
-
-        <ImageButton
-            android:id="@+id/button2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="2dp"
-            android:background="@drawable/green_button"
-            android:scaleType="centerInside"
-            android:contentDescription="Botón 2" />
-
-        <ImageButton
-            android:id="@+id/button3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="2dp"
-            android:background="@drawable/green_button"
-            android:scaleType="centerInside"
-            android:contentDescription="Botón 3" />
-
-        <ImageButton
-            android:id="@+id/button4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="2dp"
-            android:background="@drawable/green_button"
-            android:scaleType="centerInside"
-            android:contentDescription="Botón 4" />
-
-        <ImageButton
-            android:id="@+id/button5"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="2dp"
-            android:background="@drawable/green_button"
-            android:scaleType="centerInside"
-            android:contentDescription="Botón 5" />
-
-        <ImageButton
-            android:id="@+id/button6"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="2dp"
-            android:background="@drawable/green_button"
-            android:scaleType="centerInside"
-            android:contentDescription="Botón 6" />
-
-        <ImageButton
-            android:id="@+id/button7"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="2dp"
-            android:background="@drawable/green_button"
-            android:scaleType="centerInside"
-            android:contentDescription="Botón 7" />
-
-        <ImageButton
-            android:id="@+id/button8"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="2dp"
-            android:background="@drawable/green_button"
-            android:scaleType="centerInside"
-            android:contentDescription="Botón 8" />
-
-    </GridLayout>
-
-    <Button
-        android:id="@+id/buttonReiniciar"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:text="@string/reiniciar"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:fontFamily="@font/luckiestguy_regular"
-        android:backgroundTint="@color/teal_200"/>
-
-    <Button
-        android:id="@+id/botonVolver"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:text="Volver"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:fontFamily="@font/luckiestguy_regular"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/teal_200"/>
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adViewBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:adSize="BANNER"
-        app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
 
-</LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginTop="25dp"
+                android:text="@string/titulo"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="50sp"
+                android:fontFamily="@font/metal_glass"
+                android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/fondo_glass">
+
+            <TextView
+                android:id="@+id/textoTurno"
+                android:layout_width="360dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="100dp"
+
+                android:fontFamily="@font/luckiestguy_regular"
+                android:paddingBottom="16dp"
+                android:text="Turno de X"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <!-- AVATARES Y NOMBRES (MEJORADO) -->
+            <LinearLayout
+                android:id="@+id/containerUsuarios"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <!-- COLUMNA JUGADOR 1 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/avatarPerfilJ1"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@drawable/circle_white"
+                        android:src="@drawable/ic_c"
+                        android:padding="6dp"
+                        android:scaleType="centerInside" />
+
+                    <TextView
+                        android:id="@+id/nombreJ1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre1"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_marginTop="5dp"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+                <!-- COLUMNA JUGADOR 2 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/avatarPerfilJ2"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@drawable/circle_white"
+                        android:src="@drawable/ic_c"
+                        android:padding="6dp"
+                        android:scaleType="centerInside" />
+
+                    <TextView
+                        android:id="@+id/nombreJ2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre2"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="sans-serif-medium"
+                        android:textStyle="bold"
+                        android:layout_marginTop="5dp"
+                        android:textAlignment="center" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/textoNivel"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Nivel ..."
+                android:textSize="30sp"
+                android:layout_marginHorizontal="100dp"
+                android:textStyle="bold"
+                android:paddingBottom="16dp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:fontFamily="@font/luckiestguy_regular" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/fondo_glass">
+
+            <!-- Cuadricula 3x3  -->
+            <GridLayout
+                android:id="@+id/grid"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:columnCount="3"
+                android:rowCount="3"
+                android:layout_margin="2dp"
+                android:padding="20dp">
+
+                <!-- 9 ImageButtons (una celda cada uno) -->
+                <ImageButton
+                    android:id="@+id/button0"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/green_button"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Botón 0" />
+
+                <ImageButton
+                    android:id="@+id/button1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/green_button"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Botón 1" />
+
+                <ImageButton
+                    android:id="@+id/button2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/green_button"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Botón 2" />
+
+                <ImageButton
+                    android:id="@+id/button3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/green_button"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Botón 3" />
+
+                <ImageButton
+                    android:id="@+id/button4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/green_button"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Botón 4" />
+
+                <ImageButton
+                    android:id="@+id/button5"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/green_button"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Botón 5" />
+
+                <ImageButton
+                    android:id="@+id/button6"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/green_button"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Botón 6" />
+
+                <ImageButton
+                    android:id="@+id/button7"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/green_button"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Botón 7" />
+
+                <ImageButton
+                    android:id="@+id/button8"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/green_button"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Botón 8" />
+
+            </GridLayout>
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/fondo_glass">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/buttonReiniciar"
+                    android:layout_width="180dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:text="@string/reiniciar"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:layout_margin="2dp"
+                    android:fontFamily="@font/luckiestguy_regular"
+                    android:backgroundTint="@color/teal_200"/>
+
+                <Button
+                    android:id="@+id/botonVolver"
+                    android:layout_width="180dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:text="Volver"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_margin="2dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/luckiestguy_regular"
+                    android:backgroundTint="@color/teal_200"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adViewBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:adSize="BANNER"
+            app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+
+
+
+    </LinearLayout>
+
+    </ScrollView>

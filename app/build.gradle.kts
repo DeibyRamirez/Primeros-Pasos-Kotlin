@@ -11,15 +11,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myapplication"
-    compileSdk = 34
+    namespace = "com.cheiviz.triktak"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.myapplication"
+        applicationId = "com.cheiviz.triktak"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.1"
+        targetSdk = 35
+        versionCode = 3
+        versionName = "3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -73,4 +73,7 @@ dependencies {
 
     // Anuncios
     implementation("com.google.android.gms:play-services-ads:24.8.0")
+
+    // Firebase Servicio de Mensajes
+    implementation("com.google.firebase:firebase-messaging:24.0.0")
 }

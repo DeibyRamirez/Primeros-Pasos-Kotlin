@@ -5,23 +5,30 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PaginaCodigo"
 
+    tools:context=".PaginaCodigo"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:fontFamily="@font/luckiestguy_regular"
+        android:fontFamily="@font/metal_glass"
         android:text="@string/titulo"
         android:textAlignment="center"
-        android:background="@drawable/fondo_titulo"
         android:layout_gravity="center"
-        android:textColor="?attr/colorTitulo"
+        android:textColor="@color/white"
         android:textSize="50sp" />
 
-    <!-- Texto dinámico que cambia según el modo -->
+    <!-- 🔥 Caja con fondo difuminado -->
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="420dp"
+        android:background="@drawable/fondo_glass"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
+
     <TextView
         android:id="@+id/textoModo"
         android:layout_width="wrap_content"
@@ -30,26 +37,15 @@
         android:textAlignment="center"
         android:layout_gravity="center"
         android:textSize="24sp"
-        android:textColor="@color/yellow"
-        android:fontFamily="@font/nabla_regular_variablefont_edpt_ehlt"
+        android:textColor="@color/white"
+        android:fontFamily="@font/luckiestguy_regular"
         android:layout_marginTop="20dp" />
-
-
-
-    <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="420dp"
-        android:background="@color/white"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:layout_marginTop="50dp">
-
 
         <EditText
             android:id="@+id/codigoPartida"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
             android:inputType="textCapCharacters"
@@ -69,18 +65,15 @@
             android:layout_margin="20dp"
             android:text="Partida Privada"
             android:textSize="24sp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
+            android:textColor="@color/white"
             android:gravity="center"
-            android:fontFamily="@font/luckiestguy_regular"
-            />
+            android:fontFamily="@font/luckiestguy_regular"/>
 
         <Button
             android:id="@+id/botonIngresar"
             style="@style/Botones"
             android:text="@string/ingresar" />
 
-        <!-- Instrucciones adicionales -->
         <TextView
             android:id="@+id/textoInstrucciones"
             android:layout_width="300dp"
@@ -88,14 +81,12 @@
             android:text="@string/comparte"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-condensed-medium"
             android:layout_marginTop="10dp"
             android:visibility="visible" />
-
-
     </LinearLayout>
 
     <com.google.android.gms.ads.AdView
@@ -106,8 +97,5 @@
         android:layout_gravity="center"
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
-
-
-
 
 </LinearLayout>

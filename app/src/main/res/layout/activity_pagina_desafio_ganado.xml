@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+
     tools:context=".PaginaDesafioGanado">
 
     <LinearLayout
@@ -14,67 +15,78 @@
         android:padding="20dp"
         android:gravity="center_horizontal">
 
-        <!-- TÍTULO -->
-        <TextView
-            android:id="@+id/textTitulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¡Ganaste el Desafío!"
-            android:textSize="50sp"
-            android:background="@drawable/fondo_titulo"
-            android:textColor="?attr/colorTitulo"
-            android:fontFamily="@font/luckiestguy_regular"
-            android:layout_marginTop="10dp"
-            android:paddingHorizontal="20dp"
-            android:textAlignment="center" />
-
-        <!-- ICONO DE MONEDA / VICTORIA -->
-        <ImageView
-            android:id="@+id/iconVictoria"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/trofeo"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"
-            android:background="@drawable/circle_white"
-            android:scaleType="centerInside" />
-
-        <!-- CARD DE INFORMACIÓN -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="25dp"
-            android:layout_marginTop="20dp"
-            android:elevation="8dp">
+            android:layout_marginTop="70dp"
+            android:padding="20dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/fondo_glass">
 
-            <!-- Recompensa -->
+            <!-- TÍTULO -->
             <TextView
-                android:id="@+id/textRecompensa"
+                android:id="@+id/textTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¡Ganaste el Desafío!"
+                android:textSize="43sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/metal_glass"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="20dp"
+                android:textAlignment="center" />
+
+            <!-- ICONO DE MONEDA / VICTORIA -->
+            <ImageView
+                android:id="@+id/iconVictoria"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/trofeo"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"
+                android:background="@drawable/circle_white"
+                android:scaleType="centerInside" />
+
+            <!-- CARD DE INFORMACIÓN -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recibiste la cantidad de 300 monedas"
-                android:textSize="25sp"
-                android:textAlignment="center"
-                android:fontFamily="@font/luckiestguy_regular"
-                android:textColor="?attr/colorTitulo"
-                android:background="@drawable/fondo_titulo"
-                android:padding="10dp"/>
+                android:orientation="vertical"
+                android:padding="25dp"
+                android:layout_marginTop="20dp"
+                android:elevation="8dp">
 
-            <!-- Botón Continuar -->
-            <Button
-                android:id="@+id/buttonContinuar"
-                android:layout_width="200dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
-                android:text="@string/continuar"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/luckiestguy_regular"
-                android:textColor="@color/white"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="@color/teal_200" />
+                <!-- Recompensa -->
+                <TextView
+                    android:id="@+id/textRecompensa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recibiste la cantidad de 300 monedas"
+                    android:textSize="25sp"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/luckiestguy_regular"
+                    android:textColor="@color/white"
+                    android:padding="10dp"/>
+
+                <!-- Botón Continuar -->
+                <Button
+                    android:id="@+id/buttonContinuar"
+                    android:layout_width="200dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:text="@string/continuar"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/luckiestguy_regular"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/teal_200" />
+            </LinearLayout>
+
+
         </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>

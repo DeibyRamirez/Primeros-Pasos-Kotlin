@@ -5,19 +5,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:fitsSystemWindows="true"
     android:orientation="vertical"
+
+    android:padding="20dp"
     tools:context=".PaginaBienvenida">
 
-    <!-- Sección superior con nombre + avatar -->
+    <!-- BOTÓN SUPERIOR DERECHA (Personalizar) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="10dp"
         android:gravity="end"
-        android:orientation="horizontal">
+        android:layout_marginTop="30dp">
 
         <ImageButton
             android:id="@+id/botonpersonalizar"
@@ -26,22 +24,22 @@
             android:background="@drawable/circle_white"
             android:src="@drawable/personalizar"
             android:scaleType="centerInside"
-            android:contentDescription="fefa"
             android:padding="6dp" />
     </LinearLayout>
 
+    <!-- TÍTULO -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/luckiestguy_regular"
+        android:fontFamily="@font/metal_glass"
         android:text="@string/titulo"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:textAlignment="center"
-        android:background="@drawable/fondo_titulo"
-        android:textColor="?attr/colorTitulo"
-        android:textSize="50sp" />
+        android:textColor="@color/white"
+        android:textSize="48sp"
+        android:layout_marginBottom="10dp"/>
 
+    <!-- BANNER ADS -->
     <com.google.android.gms.ads.AdView
         android:id="@+id/adViewBanner"
         android:layout_width="match_parent"
@@ -50,54 +48,59 @@
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
-
-
-    <!-- Título del chat -->
+    <!-- TÍTULO DEL CHAT -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:text="@string/Chat_Global"
         android:fontFamily="@font/luckiestguy_regular"
-        android:textColor="?attr/colorTitulo"
-        android:background="@drawable/fondo_titulo"
-        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textSize="22sp"
         android:layout_gravity="center"
-        android:text="@string/Chat_Global" />
+        android:layout_marginTop="15dp" />
 
-    <!-- CHAT CON SCROLL -->
-    <ScrollView
+    <!-- CONTENEDOR GLASS DEL CHAT -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="260dp"
         android:layout_marginTop="10dp"
-        android:layout_margin="15dp"
-        android:background="@drawable/chat_background"
-        android:padding="10dp">
+        android:background="@drawable/fondo_glass"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:elevation="8dp"
+        android:clipToOutline="true">
 
-        <LinearLayout
-            android:id="@+id/contenedorChat"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:layout_height="match_parent">
 
-    </ScrollView>
+            <LinearLayout
+                android:id="@+id/contenedorChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
 
-    <!-- Input y botón -->
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- INPUT + ENVIAR -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="10dp">
+        android:layout_marginTop="10dp">
 
         <EditText
             android:id="@+id/edtMensaje"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
-            android:textColor="@color/black"
-            android:background="@drawable/fondo_titulo"
+            android:background="@drawable/fondo_glass"
             android:hint="Escribe un mensaje..."
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"/>
 
         <Space
             android:layout_width="10dp"
@@ -113,24 +116,31 @@
             android:src="@drawable/enviar" />
     </LinearLayout>
 
-
-    <GridLayout
+    <!-- BOTONES LOCAL / ONLINE -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginTop="20dp"
-        android:columnCount="1"
-        android:rowCount="2">
+        android:background="@drawable/fondo_glass"
+        android:padding="20dp"
+        android:elevation="8dp"
+        android:clipToOutline="true">
 
         <Button
             android:id="@+id/botonlocal"
             style="@style/Botones"
-            android:text="@string/local" />
+            android:text="@string/local"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"/>
 
         <Button
             android:id="@+id/botononline"
             style="@style/Botones"
-            android:text="@string/online" />
-
-    </GridLayout>
+            android:text="@string/online"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </LinearLayout>

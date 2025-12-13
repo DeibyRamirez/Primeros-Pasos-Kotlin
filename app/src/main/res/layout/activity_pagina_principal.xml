@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PaginaPrincipal"
+
     android:fillViewport="true">
 
     <LinearLayout
@@ -20,7 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@drawable/fondo_glass"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/txtNombreUsuario"
@@ -30,8 +33,7 @@
                 android:text="nombre de usuario"
                 android:textStyle="bold"
                 android:fontFamily="@font/luckiestguy_regular"
-                android:textColor="?attr/colorTitulo"
-                android:background="@drawable/fondo_titulo"
+                android:textColor="@color/white"
                 android:textSize="24sp" />
 
             <ImageButton
@@ -44,47 +46,55 @@
                 android:scaleType="centerInside" />
         </LinearLayout>
 
-        <!-- Título principal -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:fontFamily="@font/luckiestguy_regular"
-            android:text="@string/titulo"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:background="@drawable/fondo_titulo"
-            android:textColor="?attr/colorTitulo"
-            android:textSize="50sp" />
 
-        <!-- Banner -->
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adViewBanner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:adSize="BANNER"
-            app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+
+
+            <!-- Título principal -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:text="@string/titulo"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:fontFamily="@font/metal_glass"
+                android:textSize="50sp"
+                android:padding="10dp"
+                android:layout_marginTop="10dp" />
+
+            <!-- Banner -->
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adViewBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:adSize="BANNER"
+                app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
         <!-- Partidas -->
         <TextView
+            android:id="@+id/txtPartidas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/luckiestguy_regular"
-            android:textColor="?attr/colorTitulo"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:layout_gravity="center"
-            android:background="@drawable/fondo_titulo"
+            android:padding="10dp"
             android:text="Partidas disponibles" />
 
         <LinearLayout
+
             android:id="@+id/contenedorPartidas"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="280dp"
             android:orientation="vertical"
             android:layout_marginTop="10dp"
-            android:background="@drawable/chat_background"
+            android:background="@drawable/fondo_glass"
             android:padding="10dp">
+
+
 
             <!-- RecyclerView Partidas -->
             <androidx.recyclerview.widget.RecyclerView
@@ -97,9 +107,11 @@
         <!-- Botones Crear / Unirse -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="300dp"
             android:layout_marginTop="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/fondo_glass"
+            android:padding="10dp">
 
             <Button
                 android:id="@+id/botonUnirse"

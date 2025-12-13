@@ -5,8 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PaginaUsuarios"
-    android:fillViewport="true">
+    android:fillViewport="true"
+
+    tools:context=".PaginaUsuarios">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,12 +16,14 @@
         android:layout_marginTop="10dp"
         android:padding="16dp">
 
-        <!-- Header -->
+        <!-- Header con glass -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:background="@drawable/fondo_glass"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/txtNombreUsuario"
@@ -29,34 +32,34 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/luckiestguy_regular"
                 android:text="nombre de usuario"
-                android:background="@drawable/fondo_titulo"
-                android:textColor="?attr/colorTitulo"
-                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/btnPerfil"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="@drawable/circle_white"
                 android:padding="6dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_c" />
         </LinearLayout>
 
-        <!-- Título principal -->
+        <!-- Título principal con efecto glass -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/luckiestguy_regular"
             android:text="@string/titulo"
-            android:background="@drawable/fondo_titulo"
             android:layout_gravity="center"
             android:textAlignment="center"
-            android:textColor="?attr/colorTitulo"
-            android:textSize="50sp" />
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:textSize="50sp"
+            android:layout_marginTop="16dp" />
 
-
+        <!-- Banner -->
         <com.google.android.gms.ads.AdView
             android:id="@+id/adViewBanner"
             android:layout_width="match_parent"
@@ -65,37 +68,35 @@
             app:adSize="BANNER"
             app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
-        <!-- Usuarios en Linea -->
+        <!-- "Usuarios en Línea" con glass -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/luckiestguy_regular"
-            android:textColor="?attr/colorTitulo"
-            android:background="@drawable/fondo_titulo"
+            android:textColor="@color/white"
             android:layout_gravity="center"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:text="Usuarios en Linea" />
+            android:textSize="22sp"
+            android:text="Usuarios en Línea" />
 
+        <!-- Contenedor usuarios con glass -->
         <LinearLayout
             android:id="@+id/contenedorUsuarios"
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:orientation="vertical"
             android:layout_marginTop="10dp"
-            android:background="@drawable/chat_background"
+            android:background="@drawable/fondo_glass"
             android:padding="10dp">
 
-            <!-- RecyclerView Partidas -->
+
+
+            <!-- Lista de usuarios -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listaUsuarios"
                 android:layout_width="match_parent"
-                android:layout_height="500dp" />
-
+                android:layout_height="match_parent"/>
         </LinearLayout>
-
-
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
