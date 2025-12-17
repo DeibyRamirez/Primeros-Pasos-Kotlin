@@ -44,6 +44,7 @@ class PaginaJuego : BaseActivity() {
     private lateinit var textoTurno: TextView
     private lateinit var textoNivel: TextView
     private lateinit var grid: GridLayout
+    private lateinit var botonAvanzar: Button
 
     // Variables UI Usuarios
     private lateinit var textoJugador1: TextView
@@ -98,6 +99,8 @@ class PaginaJuego : BaseActivity() {
         textoTurno = findViewById(R.id.textoTurno)
         textoNivel = findViewById(R.id.textoNivel)
         grid = findViewById(R.id.grid)
+        botonAvanzar = findViewById(R.id.buttonAvanzaNivel)
+
 
         // Configurar las vistas para los datos de los 2 Usuarios
         textoJugador1 = findViewById(R.id.nombreJ1)
@@ -111,6 +114,38 @@ class PaginaJuego : BaseActivity() {
 
         val yoSoy = intent.getStringExtra("yoSoy") ?: "x"
 
+        // Logica para el boton de avanzar nivel de manera manual.
+
+        botonAvanzar.visibility = View.INVISIBLE
+        botonAvanzar.isEnabled = false
+
+        botonAvanzar.setOnClickListener {
+
+            // Seguridad extra: solo si el juego terminó
+            if (!juegoTerminado) return@setOnClickListener
+
+            // ¿Es el último nivel?
+            if (controladorDesafio.esUltimoNivel()) {
+                val idUsuario = intent.getStringExtra("id_usuario") ?: return@setOnClickListener
+                val intent = Intent(this, PaginaDesafioGanado::class.java)
+                intent.putExtra("id_usuario", idUsuario)
+                startActivity(intent)
+                finish()
+                return@setOnClickListener
+            }
+
+            // Avanzar nivel manualmente
+            controladorDesafio.avanzaNivel()
+
+            // Ocultar botón nuevamente
+            botonAvanzar.visibility = View.INVISIBLE
+            botonAvanzar.isEnabled = false
+
+            // Cargar siguiente nivel
+            configurarModoDesafio()
+        }
+
+
 
 
 
@@ -121,6 +156,8 @@ class PaginaJuego : BaseActivity() {
             textoNivel.visibility = View.GONE
             botonReiniciar.visibility = View.VISIBLE
             containerUsuarios.visibility = View.GONE
+            botonAvanzar.visibility = View.GONE
+
         }
 
         if (modoJuego == "desafio"){
@@ -131,6 +168,7 @@ class PaginaJuego : BaseActivity() {
             botonReiniciar.visibility = View.GONE
             textoTurno.visibility = View.VISIBLE
             containerUsuarios.visibility = View.GONE
+            botonAvanzar.visibility = View.INVISIBLE
 
         }
 
@@ -140,6 +178,7 @@ class PaginaJuego : BaseActivity() {
             // Ocultar elementos del modo desafío
             textoNivel.visibility = View.GONE
             botonReiniciar.visibility = View.GONE
+            botonAvanzar.visibility = View.GONE
 
             val salaRef = FirebaseDatabase.getInstance()
                 .getReference("games")
@@ -212,7 +251,7 @@ class PaginaJuego : BaseActivity() {
         }
 
         botonReiniciar.setOnClickListener {
-             if (modoJuego == "local") {
+            if (modoJuego == "local") {
                 reiniciarJuegoLocal()
             }
         }
@@ -356,30 +395,18 @@ class PaginaJuego : BaseActivity() {
     }
 
     private fun ganarJugadorDesafio() {
+        // Marcar el juego como terminado
         juegoTerminado = true
         temporizador?.detener()
 
+        // Mensaje de victoria
         Toast.makeText(this, "¡Ganaste el nivel!", Toast.LENGTH_LONG).show()
 
-        // Avanzar nivel
-        controladorDesafio.avanzaNivel()
-
-        val idUsuario = intent.getStringExtra("id_usuario") ?: return
-
-        // ¿Es el último nivel?
-        if (controladorDesafio.esUltimoNivel()) {
-            // Ir a pantalla final que da monedas
-            val intent = Intent(this, PaginaDesafioGanado::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            intent.putExtra("id_usuario", idUsuario)
-            startActivity(intent)
-            finish()
-            return
-        }
-
-        // Si NO es el último nivel, continuar normalmente
-        configurarModoDesafio()
+        // Mostrar botón de avanzar (solo al ganar)
+        botonAvanzar.visibility = View.VISIBLE
+        botonAvanzar.isEnabled = true
     }
+
 
 
 
@@ -387,13 +414,11 @@ class PaginaJuego : BaseActivity() {
         juegoTerminado = true
         temporizador?.detener()
 
-        Toast.makeText(this, "Perdiste el desafío 😔", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Perdiste el desafío", Toast.LENGTH_LONG).show()
 
-        val intent = Intent(this, PaginaJuegoIA::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-        finish()
+        finish() // 🔥 CIERRA EL JUEGO
     }
+
 
     private fun configurarBotonesTableroDesafio() {
         val tamano = controladorDesafio.tableroTamano

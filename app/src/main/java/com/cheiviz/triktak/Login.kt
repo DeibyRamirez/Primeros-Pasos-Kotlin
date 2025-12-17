@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import com.cheiviz.triktak.databinding.ActivityLoginBinding
 import com.cheiviz.triktak.modelos.Usuario
+import com.cheiviz.triktak.repos.UserRepository
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -57,6 +58,8 @@ class Login : BaseActivity() {
                             Toast.makeText(this@Login, "Bienvenido", Toast.LENGTH_SHORT).show()
 
                             val uidUsuario = childSnapshot.key ?: return
+
+                            UserRepository.miId = uidUsuario   // 🔥 AQUÍ LO GUARDAS
 
                             // 🔥 Marcar en línea al iniciar sesión
                             val ref = FirebaseDatabase.getInstance()

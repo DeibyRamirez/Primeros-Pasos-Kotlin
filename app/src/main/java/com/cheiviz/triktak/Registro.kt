@@ -69,7 +69,7 @@ class Registro : BaseActivity() {
                             // El @addOnCompleteListener es una función que se ejecuta cuando la operación termina...
                             val uid = task.result?.user?.uid ?: return@addOnCompleteListener
 
-                            val usuario = Usuario(uid, nombre, correo, contraseña, avatarSeleccionado, false, 0)
+                            val usuario = Usuario(uid, nombre, correo, contraseña, avatarSeleccionado, false, 0, false)
                             // Guarda en Realtime Database el usuario creado...
                             FirebaseDatabase.getInstance().getReference("usuarios")
                                 .child(uid).setValue(usuario).addOnSuccessListener {

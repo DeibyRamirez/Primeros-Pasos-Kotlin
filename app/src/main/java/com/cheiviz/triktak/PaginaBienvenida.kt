@@ -1,7 +1,9 @@
 package com.cheiviz.triktak
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -16,12 +18,15 @@ import com.cheiviz.triktak.repos.adsrepo.CoinsRepo
 import com.cheiviz.triktak.repos.adsrepo.InterstitialAds
 import com.cheiviz.triktak.repos.adsrepo.RewardeAds
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class PaginaBienvenida : BaseActivity() {
+
+    private lateinit var banner: AdView
 
     private var datosUsuario: Usuario? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,19 +41,10 @@ class PaginaBienvenida : BaseActivity() {
         val idUsuario = intent.getStringExtra("id_usuario") ?: return
         val botonEnviar = findViewById<ImageButton>(R.id.btnEnviar)
 
-        // Inicializar AdMod
-        AdsManager.init(this)
+        banner = findViewById(R.id.adViewBanner)
 
-        // Cargar Interstitial
-        InterstitialAds.loadAd(this)
 
-        // Cargar Rewarde
-        RewardeAds.loadAd(this)
 
-        // Cargar Banner
-        val banner = findViewById<com.google.android.gms.ads.AdView>(R.id.adViewBanner)
-        val request = AdRequest.Builder().build()
-        banner.loadAd(request)
 
 
         // Uso el repo para cargar los datos del usuario con UserRepository.kt
@@ -93,6 +89,34 @@ class PaginaBienvenida : BaseActivity() {
 
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(
+                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                1001
+            )
+        }
+
+
+    }
+
+
+    override fun mostrarAnuncios() {
+        // Inicializar AdMod
+        AdsManager.init(this)
+
+        // Banner
+        banner.visibility = View.VISIBLE
+        banner.loadAd(AdRequest.Builder().build())
+
+        // Cargar Interstitial
+        InterstitialAds.loadAd(this)
+
+        // Cargar Rewarde
+        RewardeAds.loadAd(this)
+
+    }
+    override fun ocultarAnuncios() {
+        banner.visibility = View.GONE
     }
 
     // Funcion para enviar mensajes al chat global

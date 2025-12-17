@@ -2,6 +2,7 @@ package com.cheiviz.triktak
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -11,6 +12,7 @@ import com.cheiviz.triktak.modelos.Usuario
 import com.cheiviz.triktak.repos.UserRepository
 import com.cheiviz.triktak.repos.UsuariosAdapter
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -23,18 +25,19 @@ class PaginaUsuarios : BaseActivity() {
     private val usuarios = ArrayList<Usuario>()
     private var datosUsuario: Usuario? = null
 
+    private lateinit var banner: AdView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_pagina_usuarios)
 
-        // Cargar Banner
-        val banner = findViewById<com.google.android.gms.ads.AdView>(R.id.adViewBanner)
-        val request = AdRequest.Builder().build()
-        banner.loadAd(request)
-
         var botonPerfil = findViewById<ImageButton>(R.id.btnPerfil)
         var nombreUsuario = findViewById<TextView>(R.id.txtNombreUsuario)
+
+        banner = findViewById(R.id.adViewBanner)
+
 
         // Obtener el ID del usuario actual
         val idU  = intent.getStringExtra("uid_usuario").toString()
@@ -80,6 +83,19 @@ class PaginaUsuarios : BaseActivity() {
         
 
     }
+    override fun mostrarAnuncios() {
+        // Banner
+        banner.visibility = View.VISIBLE
+        banner.loadAd(AdRequest.Builder().build())
+
+
+    }
+    override fun ocultarAnuncios() {
+        banner.visibility = View.GONE
+
+    }
+
+
 
     private fun cargarUsuariosEnLinea() {
         val ref = FirebaseDatabase.getInstance().getReference("usuarios")

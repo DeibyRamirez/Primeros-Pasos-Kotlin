@@ -8,7 +8,8 @@ data class Usuario (
     var contraseña: String? = null,
     var avatar: String? = null,
     var enLinea: Boolean = false,
-    var monedas: Long = 0
+    var monedas: Long = 0,
+    var removeAds: Boolean = false
 
 )
 

@@ -13,9 +13,13 @@ class PaginaJuegoIA : BaseActivity() {
 
         val botonAceptar = findViewById<Button>(R.id.botonaceptar)
 
+        var idUsuario = intent.getStringExtra("id_usuario") ?: return
+
+
         botonAceptar.setOnClickListener {
             val intent = Intent(this, PaginaJuego::class.java)
             intent.putExtra("modo_juego", "desafio")
+            intent.putExtra("id_usuario", idUsuario)
             startActivity(intent)
         }
 

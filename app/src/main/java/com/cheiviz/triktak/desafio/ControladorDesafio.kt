@@ -14,28 +14,28 @@ class ControladorDesafio {
         when (nivelActual){
             1 -> {
                 tableroTamano = 3
-                probabilidadIA = 100
+                probabilidadIA = 60
                 tiempoRestante = 20
 
             }
 
             2 -> {
                 tableroTamano = 3
-                probabilidadIA = 100
+                probabilidadIA = 70
                 tiempoRestante = 15
 
             }
 
             3 -> {
                 tableroTamano = 4
-                probabilidadIA = 100
+                probabilidadIA = 80
                 tiempoRestante = 10
 
             }
 
             4 -> {
                 tableroTamano = 5
-                probabilidadIA = 100
+                probabilidadIA = 90
                 tiempoRestante = 5
 
             }

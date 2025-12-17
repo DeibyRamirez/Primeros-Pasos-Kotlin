@@ -18,8 +18,8 @@ android {
         applicationId = "com.cheiviz.triktak"
         minSdk = 24
         targetSdk = 35
-        versionCode = 3
-        versionName = "3"
+        versionCode = 9
+        versionName = "9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -76,4 +76,11 @@ dependencies {
 
     // Firebase Servicio de Mensajes
     implementation("com.google.firebase:firebase-messaging:24.0.0")
+
+    // Pagos internos de paquetes de monedas
+    implementation("com.android.billingclient:billing-ktx:7.1.1")
+
+    //
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+
 }

@@ -2,15 +2,22 @@ package com.cheiviz.triktak
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import com.cheiviz.triktak.billing.BillingManager
 import com.cheiviz.triktak.modelos.Paquete
+import com.cheiviz.triktak.repos.UserRepository
+import com.cheiviz.triktak.repos.adsrepo.AdsRepository
 import com.cheiviz.triktak.repos.adsrepo.CoinsRepo
+import com.google.firebase.database.FirebaseDatabase
 
 class PaginaRecargar : BaseActivity() {
+
+    private lateinit var billingManager: BillingManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,29 +27,57 @@ class PaginaRecargar : BaseActivity() {
         val contenedorPaquetes = findViewById<LinearLayout>(R.id.contenedorPaquetes)
         val botonQuitarAnuncios = findViewById<Button>(R.id.btnQuitarAnuncios)
 
-        val uidUsuario  = intent.getStringExtra("id_usuario").toString()
+        val uidUsuario = UserRepository.miId
 
-        if (uidUsuario == null) {
-            Toast.makeText(this, "Error: No se encontró el ID de usuario", Toast.LENGTH_LONG).show()
+        if (uidUsuario.isEmpty()) {
+            Toast.makeText(this, "Sesión inválida", Toast.LENGTH_LONG).show()
             finish()
             return
         }
 
+
         // Lista de paquetes
         val paquetes = listOf(
-            Paquete(100, 2000),
-            Paquete(250, 4000),
-            Paquete(500, 6000),
-            Paquete(1200, 10000)
+            Paquete(100, "coins_100"),
+            Paquete(250, "coins_250"),
+            Paquete(500, "coins_500"),
+            Paquete(1200, "coins_1200")
         )
+
+        billingManager = BillingManager(this) { productId ->
+            when (productId) {
+                "coins_100" -> CoinsRepo.addCoins(uidUsuario, 100)
+                "coins_250" -> CoinsRepo.addCoins(uidUsuario, 250)
+                "coins_500" -> CoinsRepo.addCoins(uidUsuario, 500)
+                "coins_1200" -> CoinsRepo.addCoins(uidUsuario, 1200)
+
+                "remove_ads" -> {
+                    AdsRepository.setRemoveAds(uidUsuario, true)
+                }
+            }
+
+            Toast.makeText(this, "Compra exitosa", Toast.LENGTH_SHORT).show()
+        }
+
+
+        billingManager.start()
+
 
         // Cargar paquetes
         cargarPaquetes(paquetes, contenedorPaquetes, uidUsuario)
 
         // Botón quitar anuncios
         botonQuitarAnuncios.setOnClickListener {
-            Toast.makeText(this, "Función de quitar anuncios pendiente", Toast.LENGTH_SHORT).show()
+            billingManager.buy("remove_ads")
         }
+
+        AdsRepository.observeRemoveAds(uidUsuario) { removeAds ->
+            if (removeAds) {
+                botonQuitarAnuncios.visibility = View.GONE
+            }
+        }
+
+
     }
 
     private fun cargarPaquetes(
@@ -66,12 +101,14 @@ class PaginaRecargar : BaseActivity() {
 
                 // Configurar textos
                 txtMonedas.text = "${paquete.monedas} Monedas"
-                txtPrecio.text = "$${paquete.precio}"
+                txtPrecio.text = "Comprar"
+
 
                 // Configurar botón
                 btnComprar.setOnClickListener {
-                    comprarPaquete(paquete, idUsuario)
+                    billingManager.buy(paquete.productoId)
                 }
+
 
                 // Agregar al contenedor
                 contenedor.addView(vista)
@@ -101,21 +138,4 @@ class PaginaRecargar : BaseActivity() {
         }
     }
 
-    private fun comprarPaquete(paquete: Paquete, idUsuario: String) {
-        CoinsRepo.addCoins(idUsuario, paquete.monedas) { exitoso ->
-            if (exitoso) {
-                Toast.makeText(
-                    this,
-                    "¡Compraste ${paquete.monedas} monedas por $${paquete.precio}!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Error al agregar monedas. Intenta de nuevo.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
 }

@@ -41,6 +41,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun mostrarNotificacion(title: String, body: String) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (
+                checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                != android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
+                return // ❌ no permiso, no notificación
+            }
+        }
+
         val channelId = "chat_channel"
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -63,5 +73,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         NotificationManagerCompat.from(this)
             .notify(System.currentTimeMillis().toInt(), notification)
     }
+
 }
 

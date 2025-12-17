@@ -13,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import com.cheiviz.triktak.modelos.Usuario
 import com.cheiviz.triktak.repos.UserRepository
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -25,15 +26,13 @@ class PaginaPrincipal : BaseActivity() {
     private lateinit var partidaRef: DatabaseReference
     private var datosUsuario: Usuario? = null
 
+    private lateinit var  banner : AdView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_pagina_principal)
 
-        // Cargar Banner
-        val banner = findViewById<com.google.android.gms.ads.AdView>(R.id.adViewBanner)
-        val request = AdRequest.Builder().build()
-        banner.loadAd(request)
 
         val botonUnirse = findViewById<Button>(R.id.botonUnirse)
         val botonCrear = findViewById<Button>(R.id.botonCrear)
@@ -41,6 +40,9 @@ class PaginaPrincipal : BaseActivity() {
         val botonChatear = findViewById<Button>(R.id.botonChatear)
         val textoPartidas = findViewById<TextView>(R.id.txtPartidas)
         val partidasLayout = findViewById<LinearLayout>(R.id.contenedorPartidas)
+
+        banner = findViewById(R.id.adViewBanner)
+
 
 
 
@@ -135,6 +137,18 @@ class PaginaPrincipal : BaseActivity() {
             intent.putExtra("uid_usuario", idUsuario)
             startActivity(intent)
         }
+
+    }
+
+    override fun mostrarAnuncios() {
+        // Banner
+        banner.visibility = View.VISIBLE
+        banner.loadAd(AdRequest.Builder().build())
+
+
+    }
+    override fun ocultarAnuncios() {
+        banner.visibility = View.GONE
 
     }
 
